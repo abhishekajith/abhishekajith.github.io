@@ -1,7 +1,7 @@
 {% comment %}
-  Local override of al_folio_cv education.liquid.
-  Byte-identical to the gem template except that it also renders the `score`
-  (CGPA) field, which the gem template drops. Alignment is unchanged from the gem.
+  Local override of al_folio_cv experience.liquid.
+  Byte-identical to the gem template except the date badge gets a uniform fixed
+  width so years align vertically across entries. Alignment otherwise unchanged.
 {% endcomment %}
 
 <ul class="card-text font-weight-light list-group list-group-flush">
@@ -66,37 +66,33 @@
           </table>
         </div>
         <div class="col-xs-10 col-sm-10 col-md-10 mt-2 mt-md-0">
-          {% capture study_type %}
-            {% if entry.studyType %}{{ entry.studyType }}{% elsif entry.degree %}{{ entry.degree }}{% endif %}
+          {% capture position_title %}
+            {% if entry.position %}{{ entry.position }}{% endif %}
           {% endcapture %}
 
           {% if entry.url %}
             <h6 class="title font-weight-bold ml-1 ml-md-4">
-              <a href="{{ entry.url }}">{{ study_type }}</a>
+              <a href="{{ entry.url }}">{{ position_title }}</a>
             </h6>
-          {% elsif study_type != '' %}
-            <h6 class="title font-weight-bold ml-1 ml-md-4">{{ study_type }}</h6>
+          {% elsif position_title != '' %}
+            <h6 class="title font-weight-bold ml-1 ml-md-4">{{ position_title }}</h6>
           {% endif %}
 
-          {% if entry.institution %}
-            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem">{{ entry.institution }}</h6>
+          {% capture company_name %}
+            {% if entry.name %}{{ entry.name }}{% elsif entry.company %}{{ entry.company }}{% elsif entry.organization %}{{ entry.organization }}{% endif %}
+          {% endcapture %}
+          {% if company_name != '' %}
+            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem">{{ company_name }}</h6>
           {% endif %}
 
-          {% if entry.area %}
-            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem; font-style: italic">{{ entry.area }}</h6>
+          {% if entry.summary %}
+            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem; font-style: italic">
+              {{ entry.summary | markdownify | remove: '<p>' | remove: '</p>' }}
+            </h6>
           {% endif %}
 
-          {% if entry.score %}
-            <h6 class="ml-1 ml-md-4" style="font-size: 0.95rem; font-weight: 500">{{ entry.score }}</h6>
-          {% endif %}
-
-          {% if entry.courses or entry.highlights %}
+          {% if entry.highlights %}
             <ul class="items">
-              {% for item in entry.courses %}
-                <li>
-                  <span class="item">{{ item }}</span>
-                </li>
-              {% endfor %}
               {% for item in entry.highlights %}
                 <li>
                   <span class="item">{{ item | markdownify | remove: '<p>' | remove: '</p>' }}</span>
