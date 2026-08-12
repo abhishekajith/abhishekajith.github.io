@@ -1,0 +1,92 @@
+{% comment %}
+  Local override of al_folio_cv experience.liquid.
+  Fixes: date+location column width/alignment, title-vs-date vertical alignment,
+  and summary spacing. Keeps the same date parsing logic as the gem template.
+{% endcomment %}
+
+<ul class="card-text font-weight-light list-group list-group-flush">
+  {% for entry in entries %}
+    <li class="list-group-item px-0">
+      <div class="row align-items-start">
+        <div class="col-3 col-md-3 pt-1 date-column">
+          {% comment %} `capture` keeps the surrounding whitespace, so strip before testing for emptiness {% endcomment %}
+          {% capture start_date %}
+            {% if entry.start_date %}{{ entry.start_date }}{% elsif entry.startDate %}{{ entry.startDate }}{% endif %}
+          {% endcapture %}
+          {% assign start_date = start_date | strip %}
+          {% capture end_date %}
+            {% if entry.end_date %}{{ entry.end_date }}{% elsif entry.endDate %}{{ entry.endDate }}{% endif %}
+          {% endcapture %}
+          {% assign end_date = end_date | strip %}
+          {% comment %}
+            An entry may carry a single point-in-time `date` instead of a start/end pair.
+          {% endcomment %}
+          {% capture point_date %}
+            {% if entry.date %}{{ entry.date }}{% elsif entry.releaseDate %}{{ entry.releaseDate }}{% endif %}
+          {% endcapture %}
+          {% assign point_date = point_date | strip %}
+
+          {% if start_date != '' %}
+            {% assign startDate = start_date | split: '-' | first %}
+            {% assign endDate = end_date | split: '-' | first | default: 'Present' %}
+            {% assign date = startDate | append: ' - ' | append: endDate %}
+          {% elsif point_date != '' %}
+            {% assign date = point_date | split: '-' | first %}
+          {% else %}
+            {% assign date = null %}
+          {% endif %}
+
+          {% if date %}
+            <span class="badge font-weight-bold danger-color-dark text-uppercase d-inline-block mb-1" style="min-width: 75px">{{ date }}</span>
+          {% endif %}
+          {% capture location %}
+            {% if entry.location %}{{ entry.location }}{% endif %}
+          {% endcapture %}
+          {% assign location = location | strip %}
+          {% if location != '' %}
+            <p class="location mb-0">
+              <i class="fa-solid fa-location-dot iconlocation"></i>
+              {{ location }}
+            </p>
+          {% endif %}
+        </div>
+        <div class="col-9 col-md-9">
+          {% capture position_title %}
+            {% if entry.position %}{{ entry.position }}{% endif %}
+          {% endcapture %}
+
+          {% if entry.url %}
+            <h6 class="title font-weight-bold mb-1">
+              <a href="{{ entry.url }}">{{ position_title }}</a>
+            </h6>
+          {% elsif position_title != '' %}
+            <h6 class="title font-weight-bold mb-1">{{ position_title }}</h6>
+          {% endif %}
+
+          {% capture company_name %}
+            {% if entry.name %}{{ entry.name }}{% elsif entry.company %}{{ entry.company }}{% elsif entry.organization %}{{ entry.organization }}{% endif %}
+          {% endcapture %}
+          {% if company_name != '' %}
+            <h6 class="mb-1" style="font-size: 0.95rem">{{ company_name }}</h6>
+          {% endif %}
+
+          {% if entry.summary %}
+            <p class="mb-1 summary" style="font-size: 0.95rem; font-style: italic">
+              {{ entry.summary | markdownify | remove: '<p>' | remove: '</p>' }}
+            </p>
+          {% endif %}
+
+          {% if entry.highlights %}
+            <ul class="items mb-1">
+              {% for item in entry.highlights %}
+                <li>
+                  <span class="item">{{ item | markdownify | remove: '<p>' | remove: '</p>' }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </li>
+  {% endfor %}
+</ul>

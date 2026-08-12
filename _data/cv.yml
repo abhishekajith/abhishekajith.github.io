@@ -131,6 +131,26 @@ cv:
         icon: fa-solid fa-hashtag
         keywords: "Bone and Cartilage TE, Regenerative Medicine, Drug Delivery Systems"
 
+      - name: Materials Characterization
+        level: Advanced
+        icon: fa-solid fa-hashtag
+        keywords: "FTIR, XRD, SEM/EDX, TGA/DSC, Tensile Testing"
+
+      - name: Polymer & Nanocomposite Synthesis
+        level: Advanced
+        icon: fa-solid fa-hashtag
+        keywords: "Solution Casting, Sol–Gel, Electrospinning, Freeze Drying"
+
+      - name: Scientific Writing
+        level: Intermediate
+        icon: fa-solid fa-hashtag
+        keywords: "Manuscript Preparation, Literature Review, LaTeX, Zotero"
+
+      - name: Software & Data Analysis
+        level: Intermediate
+        icon: fa-solid fa-hashtag
+        keywords: "Origin, ImageJ, ChemDraw, Python, Microsoft Office"
+
     Interests:
       - name: Research Interests
         icon: fa-solid fa-tag
