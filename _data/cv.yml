@@ -1,0 +1,137 @@
+cv:
+  name: Abhishek A.
+  label: PhD Student
+  email: mailtoabhishek97@gmail.com
+  location: Kochi, Kerala, India
+  image: ""
+  summary: PhD student in regenerative biomaterials and theranostics, working on radiopaque biodegradable bone fixators, tissue engineering scaffolds, and locoregional cancer therapy.
+
+  social_networks:
+    - network: LinkedIn
+      username: abhishekajith
+    - network: GitHub
+      username: abhishekajith
+
+  address:
+    street: Dept. of Polymer Science and Rubber Technology, CUSAT
+    city: Kochi
+    region: Kerala
+    postalCode: 682022
+    countryCode: IN
+
+  sections:
+    Education:
+      - institution: Cochin University of Science and Technology (CUSAT)
+        location: Kochi, Kerala, India
+        url: https://www.cusat.ac.in/
+        area: Polymer Science and Rubber Technology (Regenerative Biomaterials and Theranostics)
+        studyType: PhD
+        start_date: 2026-04
+        end_date: Present
+
+      - institution: Cochin University of Science and Technology (CUSAT)
+        location: Kochi, Kerala, India
+        area: Polymer Technology
+        studyType: M.Tech
+        start_date: 2020-08
+        end_date: 2022-08
+        score: "CGPA 8.52"
+
+      - institution: CIPET
+        location: Kochi, Kerala, India
+        area: Biopolymer Science
+        studyType: M.Sc
+        start_date: 2017-07
+        end_date: 2019-06
+        score: "CGPA 8.76"
+
+      - institution: Mahatma Gandhi University
+        location: Kottayam, Kerala, India
+        area: Chemistry
+        studyType: B.Sc
+        start_date: 2014-07
+        end_date: 2017-05
+        score: "CGPA 8.70"
+
+    Experience:
+      - company: Cochin University of Science and Technology (CUSAT)
+        position: Junior Research Fellow
+        location: Kochi, Kerala, India
+        start_date: 2023-07
+        end_date: 2026-03
+        summary: Development of a radiopaque, biodegradable TACE system for hepatocellular carcinoma therapy (RUSA project, PI Prof. G.S. Sailaja).
+
+      - company: IIT Madras
+        position: Project Officer
+        location: Chennai, Tamil Nadu, India
+        start_date: 2022-11
+        end_date: 2023-07
+        summary: Development of interpenetrating polymer network (IPN) coatings (NPOL-DRDO project).
+
+      - company: Cochin University of Science and Technology (CUSAT)
+        position: PG Research Assistant
+        location: Kochi, Kerala, India
+        start_date: 2020-12
+        end_date: 2022-08
+        summary: Research on bone graft substitutes and bioglass-based biomaterials.
+
+      - company: IIT Kanpur
+        position: Project Trainee
+        location: Kanpur, Uttar Pradesh, India
+        start_date: 2018-12
+        end_date: 2019-05
+        summary: Development of injectable hydrogels for cartilage tissue engineering.
+
+    Awards:
+      - title: GATE 2026
+        authors:
+          - "GATE"
+        date: 2026
+        awarder: GATE
+        summary: Qualified Graduate Aptitude Test in Engineering.
+
+      - title: First Position, M.Tech Polymer Technology
+        authors:
+          - "CUSAT"
+        date: 2022
+        awarder: Cochin University of Science and Technology
+        summary: Ranked first in the M.Tech batch (2020-22).
+
+      - title: GATE 2020
+        authors:
+          - "GATE"
+        date: 2020
+        awarder: GATE
+        summary: Qualified Graduate Aptitude Test in Engineering.
+
+    Publications:
+      - title: Reclaimed Wastewater in the Semiconductor Industry
+        authors:
+          - Athira Raveendran Ambakkattu
+          - Abhishek Ajith
+          - Juviya Mathew
+        publisher: The Handbook of Environmental Chemistry, Springer
+        releaseDate: 2026
+        url: https://doi.org/10.1007/698_2026_1270
+        summary: Chapter on the recovery and reuse of reclaimed wastewater within semiconductor fabrication.
+
+    Skills:
+      - name: Biomaterials
+        level: Advanced
+        icon: fa-solid fa-hashtag
+        keywords: "Hydrogels, Ceramic Composites, Nanocellulose, Radiopacity"
+
+      - name: Processing & Characterization
+        level: Advanced
+        icon: fa-solid fa-hashtag
+        keywords: "3D Printing, Polymer Nanocomposites, Mechanical Testing, Biomineralization Assays"
+
+      - name: Tissue Engineering & Drug Delivery
+        level: Advanced
+        icon: fa-solid fa-hashtag
+        keywords: "Bone and Cartilage TE, Regenerative Medicine, Drug Delivery Systems"
+
+    Interests:
+      - name: Research Interests
+        icon: fa-solid fa-tag
+        keywords: "Biomaterials, 3D Printing, Polymer Nanocomposites, Tissue Engineering, Regenerative Medicine, Drug Delivery Systems"
