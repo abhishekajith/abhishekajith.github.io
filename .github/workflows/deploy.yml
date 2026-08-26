@@ -21,12 +21,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+      # withastro/action installs deps, builds, AND uploads the
+      # 'github-pages' artifact itself — do NOT add an extra upload
+      # step or it fails with a duplicate-artifact 409 conflict.
       - name: Install, build (Astro official action)
         uses: withastro/action@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: ./dist
 
   deploy:
     needs: build
