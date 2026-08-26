@@ -59,8 +59,7 @@ nav ul a:hover::after{width:100%}
    .hero-grid splits the row into text (left) + portrait (right).  */
 .hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:0 6vw;overflow:hidden}
 #cells{position:absolute;inset:0;width:100%;height:100%}  /* canvas fills hero */
-.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;
-           gap:clamp(24px,4vw,56px);align-items:center;width:100%;max-width:1180px;margin-inline:auto}
+.hero-grid{position:relative;z-index:2;width:100%;max-width:900px;margin-inline:auto}
                                /* z-index:2 keeps text ABOVE the canvas */
 .hero-inner{position:relative;z-index:2}
 
@@ -85,15 +84,7 @@ nav ul a:hover::after{width:100%}
 .btn.line{border:1.5px solid var(--line);color:var(--ink)}                   /* outlined pill */
 .btn.line:hover{border-color:var(--teal);color:var(--teal)}
 
-/* ── YOUR PORTRAIT ★EDIT-PHOTO ──────────────────────────────────
-   prof_pic.jpg is a TIGHT headshot square (720x720).
-   Clean 1:1 square, no circle mask, no halo.                     */
-.portrait-wrap{width:min(340px,80vw);justify-self:end}
-.portrait-wrap img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;
-  box-shadow:0 24px 60px -20px rgba(14,124,102,.25)}
-@media (max-width:900px){          /* on phones: photo stacks below text */
-  .hero-grid{grid-template-columns:1fr}
-  .portrait-wrap{width:min(240px,64vw);justify-self:center;margin-top:24px}}
+
 
 /* Organic wave divider between hero and first section (inline SVG). */
 .divider{display:block;width:100%;height:64px;margin-top:-40px}
