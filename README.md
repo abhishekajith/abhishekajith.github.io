@@ -1,7 +1,7 @@
-# Abhishek Ajith — Portfolio (Astro)
+# Abhishek Ajith - Portfolio (Astro)
 
 Personal academic website built with [Astro](https://astro.build).
-Design: "Living Cells" concept (Concept D) — organic style, teal/green
+Design: "Living Cells" concept (Concept D) - organic style, teal/green
 palette, dark-mode-first, animated cell hero.
 
 ## Commands
@@ -27,5 +27,5 @@ npm run preview # serve dist/ locally to check before deploy
 | Portrait photo                     | `public/prof_pic.jpg`                 |
 | CV PDF                             | `public/cv/CV_Abhishek_A.pdf`         |
 
-All content data is plain JavaScript arrays with comments — edit values,
+All content data is plain JavaScript arrays with comments - edit values,
 save, and the dev server hot-reloads instantly.

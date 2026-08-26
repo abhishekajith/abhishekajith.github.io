@@ -5,7 +5,7 @@
 
 export const site = {
   // Browser tab title + SEO description
-  title: 'Abhishek Ajith — Regenerative Biomaterials',
+  title: 'Abhishek Ajith - Regenerative Biomaterials',
   description:
     'PhD researcher designing inherently radiopaque, biodegradable biomaterials for orthopaedic repair and locoregional cancer therapy.',
 
@@ -25,7 +25,7 @@ export const site = {
   headlineAccent: 'heal',
   headlineAfter: ', see & disappear.',
   intro:
-    'PhD researcher at the Regenerative Biomaterials and Theranostics Laboratory — designing inherently radiopaque, biodegradable implants for orthopaedic repair and locoregional cancer therapy.',
+    'PhD researcher at the Regenerative Biomaterials and Theranostics Laboratory - designing inherently radiopaque, biodegradable implants for orthopaedic repair and locoregional cancer therapy.',
 
   // Portrait (served from /public) and CV download path
   portrait: '/prof_pic.jpg',

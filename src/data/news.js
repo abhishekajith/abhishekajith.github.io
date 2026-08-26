@@ -7,7 +7,7 @@ export const news = [
   {
     date: 'Aug 2026',
     title: 'Manuscript submitted to Ceramics International',
-    text: 'Radiopaque nanocellulose–brushite composites for periodontal regeneration.',
+    text: 'Radiopaque nanocellulose-brushite composites for periodontal regeneration.',
   },
   {
     date: 'Feb 2026',

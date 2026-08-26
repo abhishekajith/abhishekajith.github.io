@@ -1,6 +1,6 @@
 ---
 // ─────────────────────────────────────────────────────────────
-// HOMEPAGE — hero → research cards → featured publications →
+// HOMEPAGE - hero → research cards → featured publications →
 // milestones timeline. All text comes from src/data/*.
 // ─────────────────────────────────────────────────────────────
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -31,8 +31,8 @@ const statusClass = (s: string) => (s === 'review' ? 'rev' : s === 'published' ?
   <!-- ════════ SECTION 01 · RESEARCH CARDS ════════ -->
   <section id="work">
     <div class="sec-head rv">
-      <span class="sec-tag">01 · Featured research</span>
-      <h2>Growing in the lab right now</h2>
+      <span class="sec-tag">01 · Research</span>
+      <h2>Ongoing Projects</h2>
     </div>
     <div class="cards">
       {research.map((p, i) => (
@@ -53,8 +53,8 @@ const statusClass = (s: string) => (s === 'review' ? 'rev' : s === 'published' ?
   <!-- ════════ SECTION 02 · FEATURED PUBLICATIONS ════════ -->
   <section id="pubs" style="background:var(--card);border-block:1px solid var(--line)">
     <div class="sec-head rv">
-      <span class="sec-tag">02 · Selected publications</span>
-      <h2>Written work</h2>
+      <span class="sec-tag">02 · Publications</span>
+      <h2>Selected Publications</h2>
     </div>
     <div class="pub-list">
       {featured.map((pub, i) => (
@@ -65,20 +65,24 @@ const statusClass = (s: string) => (s === 'review' ? 'rev' : s === 'published' ?
             <div class="meta">
               {/* bold your own name in the author list */}
               <Fragment set:html={pub.authors.replace(/Ajith A\./, '<strong>Ajith A.</strong>')} />
-              {' — '}<em>{pub.venue}</em>
+              {' - '}<em>{pub.venue}</em>
             </div>
             <span class={`badge ${statusClass(pub.status)}`}>{statusLabel(pub.status)}</span>
           </div>
         </div>
       ))}
     </div>
+    <!-- jump to the full list, right under the featured entries -->
+    <div class="rv" style="margin-top:30px;text-align:center">
+      <a class="btn line" href="/publications/">All Publications →</a>
+    </div>
   </section>
 
   <!-- ════════ SECTION 03 · MILESTONES ════════ -->
   <section id="news">
     <div class="sec-head rv">
-      <span class="sec-tag">03 · Milestones</span>
-      <h2>Recent signal</h2>
+      <span class="sec-tag">03 · News</span>
+      <h2>Milestones &amp; Updates</h2>
     </div>
     <div class="timeline">
       {news.map((n) => (
@@ -89,10 +93,5 @@ const statusClass = (s: string) => (s === 'review' ? 'rev' : s === 'published' ?
         </div>
       ))}
     </div>
-  </section>
-
-  <!-- teaser line pointing at the full list -->
-  <section style="padding-top:0;text-align:center">
-    <a class="btn line" href="/publications/">All publications →</a>
   </section>
 </BaseLayout>

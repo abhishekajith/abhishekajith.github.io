@@ -24,7 +24,7 @@ export const research = [
   {
     grad: ['#57A05B', '#8FCB6B'],
     tag: 'Periodontics',
-    title: 'Nanocellulose–Brushite Self-Setting Composites',
+    title: 'Nanocellulose-Brushite Self-Setting Composites',
     text: 'Early-biomineralizing radiopaque cements engineered for periodontal regeneration.',
     icon: 'fibers',
   },

@@ -12,7 +12,8 @@ const menu = [
 ---
 
 <nav>
-  <div class="logo" set:html={site.logoHtml} />
+  <!-- logo doubles as a home link -->
+  <a href="/" class="logo" set:html={site.logoHtml} />
   <ul>
     {menu.map((item) => (
       <li><a href={item.href}>{item.label}</a></li>

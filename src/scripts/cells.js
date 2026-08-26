@@ -1,8 +1,8 @@
 /* ════════════════════════ JAVASCRIPT GUIDE ════════════════════════
    Three independent features live here:
-     A. toggleTheme()  — light/dark switch
-     B. Cell system    — the living-cells canvas animation
-     C. Reveal system  — fade-in-on-scroll
+     A. toggleTheme()  - light/dark switch
+     B. Cell system    - the living-cells canvas animation
+     C. Reveal system  - fade-in-on-scroll
    ★EDIT-CELLS marks every number that is safe to tweak.           */
 
 /* ──────────────── A. THEME TOGGLE ──────────────── */
@@ -17,7 +17,7 @@ function toggleTheme(){document.body.classList.toggle('dark');
 const cv=document.getElementById('cells'),ctx=cv.getContext('2d');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* If the visitor asked their OS for "reduce motion", we draw ONE
-   static frame and skip all looping — accessibility requirement.  */
+   static frame and skip all looping - accessibility requirement.  */
 
 let W,H,          /* canvas size in CSS pixels            */
     DPR,          /* devicePixelRatio → sharpness on retina */
@@ -48,7 +48,7 @@ function Cell(x,y,r,c){
   this.vx=Math.cos(a)*s; this.vy=Math.sin(a)*s;
   this.ph=Math.random()*Math.PI*2;          /* phase offset so cells don't breathe in sync */
   this.bs=.0006+Math.random()*.0012;        /* breathing speed  ★EDIT-CELLS */
-  this.ax=null;              /* division axis — null = not dividing */
+  this.ax=null;              /* division axis - null = not dividing */
   this.dt=0;                 /* seconds elapsed since division began */
 }
 
@@ -68,11 +68,11 @@ function resize(){DPR=Math.min(devicePixelRatio||1,2);
    Runs ~60× per second. Order of work:
    1) maybe trigger a mitosis   2) clear canvas   3) move+draw each  */
 function step(t){
-  /* MITOSIS TIMER — when enough time passed AND population is under
+  /* MITOSIS TIMER - when enough time passed AND population is under
      the cap (36 desktop / 22 phone), pick a random idle cell and
      give it a random division axis. ★EDIT-CELLS both numbers.      */
   if(!reduced&&t-lastDiv>nextDiv&&cells.length<(W<700?22:36)){
-    lastDiv=t;nextDiv=1500+Math.random()*1100;   /* next window 1.5–2.6s */
+    lastDiv=t;nextDiv=1500+Math.random()*1100;   /* next window 1.5-2.6s */
     const c=cells[Math.floor(Math.random()*cells.length)];
     if(c&&c.ax==null){c.ax=Math.random()*Math.PI*2;c.dt=0;}
   }
@@ -82,7 +82,7 @@ function step(t){
   for(let i=cells.length-1;i>=0;i--){const c=cells[i];
 
     /* CURSOR REACTION: inside a 170px radius a cell is gently pushed
-       away — strength fades linearly to zero at the edge. Feel =
+       away - strength fades linearly to zero at the edge. Feel =
        stirring a petri dish. ★EDIT-CELLS radius & push force .05.  */
     let dx=c.x-mouse.x,dy=c.y-mouse.y,d=Math.hypot(dx,dy);
     if(d<170&&d>0){const f=(1-d/170)*.05;c.vx+=dx/d*f;c.vy+=dy/d*f;}
@@ -110,19 +110,19 @@ function step(t){
       continue;                     /* skip normal drawing below    */
     }
 
-    /* NORMAL STATE: radius oscillates ±7% around rest size — the
+    /* NORMAL STATE: radius oscillates ±7% around rest size - the
        "breathing". Then draw as one soft lobe.                     */
     c.r=c.br*(1+.07*Math.sin(t*c.bs+c.ph));
     lobe(c.x,c.y,c.r,c.c,null,dark);
   }
 }
 /* Blend a daughter's colour halfway between parent and a fresh
-   palette pick — keeps the colony varied but harmonious.           */
+   palette pick - keeps the colony varied but harmonious.           */
 function mix(c){const t=rndPal(pal());return[t[0],(c[1]+t[1])/2,(c[2]+t[2])/2];}
 
-/* DRAW ONE CELL — three layered radial gradients:
+/* DRAW ONE CELL - three layered radial gradients:
    outer glow → body → tiny darker "nucleus" dot in the centre.
-   alpha is deliberately low (.10–.15) so overlapping cells stay
+   alpha is deliberately low (.10-.15) so overlapping cells stay
    subtle. ★EDIT-CELLS raise alpha for bolder cells.                */
 function lobe(x,y,r,c,k,dark){
   const[h,s,l]=c,alpha=(dark?.15:.10)*(k==null?1:(1-.3*Math.abs(k-.5)));
@@ -145,14 +145,14 @@ cv.parentElement.addEventListener('pointermove',e=>{const b=cv.getBoundingClient
   mouse.x=e.clientX-b.left;mouse.y=e.clientY-b.top;});
 cv.parentElement.addEventListener('pointerleave',()=>{mouse.x=-9999;mouse.y=-9999;});
 
-/* THE LOOP — requestAnimationFrame calls step() once per display
+/* THE LOOP - requestAnimationFrame calls step() once per display
    refresh (~60fps) and passes a millisecond timestamp as t.        */
 if(!reduced){(function loop(t){step(t||0);requestAnimationFrame(loop)})(0);}
 
 /* ──────────────── C. REVEAL ON SCROLL ────────────────
    Watches every element carrying class="rv". When ≥15% of it
    enters the viewport we add .visible (CSS then fades/slides it
-   in) and stop watching — each element animates only once.        */
+   in) and stop watching - each element animates only once.        */
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:.15});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));

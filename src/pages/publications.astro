@@ -1,6 +1,6 @@
 ---
 // ─────────────────────────────────────────────────────────────
-// /publications — complete list grouped by year, newest first.
+// /publications - every paper, grouped by year, newest first.
 // Data comes from src/data/publications.js.
 // ─────────────────────────────────────────────────────────────
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -18,11 +18,11 @@ const statusLabel = (s: string) => (s === 'review' ? 'Under review' : s === 'pub
 const statusClass = (s: string) => (s === 'review' ? 'rev' : s === 'published' ? 'publ' : 'publ');
 ---
 
-<BaseLayout title={`Publications — Abhishek Ajith`}>
+<BaseLayout title={`Publications - Abhishek Ajith`}>
   <section>
     <div class="sec-head rv visible">
       <span class="sec-tag">Publications</span>
-      <h2>Complete list</h2>
+      <h2>All Publications</h2>
     </div>
 
     <div class="pub-list" style="max-width:none">
@@ -35,7 +35,7 @@ const statusClass = (s: string) => (s === 'review' ? 'rev' : s === 'published' ?
                 <h4>{pub.url ? <a href={pub.url} target="_blank" rel="noopener" style="color:var(--teal)">{pub.title}</a> : pub.title}</h4>
                 <div class="meta">
                   <Fragment set:html={pub.authors.replace(/Ajith A\./, '<strong>Ajith A.</strong>')} />
-                  {' — '}<em>{pub.venue}</em>
+                  {' - '}<em>{pub.venue}</em>
                 </div>
                 <span class={`badge ${statusClass(pub.status)}`}>{statusLabel(pub.status)}</span>
               </div>
