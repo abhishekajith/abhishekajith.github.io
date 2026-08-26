@@ -27,6 +27,8 @@ export const site = {
   intro:
     'PhD researcher at the Regenerative Biomaterials and Theranostics Laboratory - designing inherently radiopaque, biodegradable implants for orthopaedic repair and locoregional cancer therapy.',
 
-  // CV download path (prof_pic.jpg stays in /public as the favicon)
+  // Portrait (served from /public) and CV download path
+  portrait: '/prof_pic.jpg',
+  portraitAlt: 'Portrait of Abhishek Ajith',
   cvUrl: '/cv/CV_Abhishek_A.pdf',
 };

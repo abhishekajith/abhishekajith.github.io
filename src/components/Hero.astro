@@ -1,7 +1,8 @@
 ---
 // ─────────────────────────────────────────────────────────────
-// HERO - first screen: animated cell canvas behind the headline
-// text. Animation logic lives in src/scripts/cells.js.
+// HERO - first screen: animated cell canvas behind a two-column
+// grid of rounded-square portrait (RIGHT) + headline text (left).
+// Animation logic lives in src/scripts/cells.js.
 // ─────────────────────────────────────────────────────────────
 import { site } from '../data/site.js';
 ---
@@ -11,6 +12,28 @@ import { site } from '../data/site.js';
 
   <div class="hero-grid">
     <div class="hero-inner">
+      <a class="kicker" href={site.lab.url} target="_blank" rel="noopener" title={site.lab.title}>
+        {site.lab.label}
+      </a>
+
+      <h1>
+        {site.headlineBefore}<br /><em>{site.headlineAccent}</em>{site.headlineAfter}
+      </h1>
+      <p class="sub">{site.intro}</p>
+
+      <div class="cta-row">
+        <a class="btn fill" href="#work">Explore research</a>
+        <a class="btn line" href={site.cvUrl} target="_blank" rel="noopener">Download CV ↓</a>
+      </div>
+    </div>
+
+    <!-- portrait SECOND = photo sits RIGHT of the headline on desktop,
+         and stacks BELOW the text on narrow screens -->
+    <div class="portrait-wrap">
+      <img src={site.portrait} alt={site.portraitAlt} width="720" height="720" loading="eager" />
+    </div>
+  </div>
+</header>
       <a class="kicker" href={site.lab.url} target="_blank" rel="noopener" title={site.lab.title}>
         {site.lab.label}
       </a>

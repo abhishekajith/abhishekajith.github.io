@@ -84,6 +84,18 @@ nav ul a:hover::after{width:100%}
 .btn.line{border:1.5px solid var(--line);color:var(--ink)}                   /* outlined pill */
 .btn.line:hover{border-color:var(--teal);color:var(--teal)}
 
+/* ── YOUR PORTRAIT ★EDIT-PHOTO ──────────────────────────────────
+   Rounded-square photo on the RIGHT of the headline.
+   prof_pic.jpg is a pre-cropped 720x720 head-and-shoulders square.
+   Drop a new square JPEG in public/prof_pic.jpg to change it.    */
+.portrait-wrap{position:relative;width:min(320px,76vw);justify-self:end}
+.portrait-wrap img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;
+  border-radius:16px;
+  box-shadow:0 12px 36px -12px rgba(14,124,102,.35)}
+@media (max-width:900px){          /* on phones: photo stacks BELOW text */
+  .hero-grid{grid-template-columns:1fr}
+  .portrait-wrap{width:min(280px,64vw);justify-self:center;margin-top:24px}}
+
 /* Organic wave divider between hero and first section (inline SVG). */
 .divider{display:block;width:100%;height:64px;margin-top:-40px}
 
