@@ -1,0 +1,511 @@
+﻿<!DOCTYPE html>
+<!-- ════════════════════════════════════════════════════════════════
+     CONCEPT D — "LIVING CELLS"   (design preview, not live yet)
+     ────────────────────────────────────────────────────────────────
+     WHAT THIS FILE IS
+       A complete, standalone mockup of your future homepage.
+         • HTML        = the content & structure (text, photo, cards)
+         • <style>     = how everything LOOKS (colors, spacing, fonts)
+         • <script>    = the BEHAVIOUR (cell animation, dark mode,
+                         scroll reveals)
+
+     HOW TO PREVIEW
+       Double-click this file — it opens in any browser.
+       Only extra file needed: prof_pic.jpg (sits beside this file).
+
+     QUICK-EDIT INDEX — search these ★ tags to jump to hot spots
+       ★EDIT-COLORS   color palette (light + dark themes)
+       ★EDIT-FONTS    which two typefaces the site loads
+       ★EDIT-MENU     items in the top navigation bar
+       ★EDIT-PHOTO    your portrait image + blob frame
+       ★EDIT-TEXT     headline & intro sentence in the hero
+       ★EDIT-LABLINK  the gssailaja.org home-lab link
+       ★EDIT-CELLS    cell count, size, speed, mitosis frequency
+       ★EDIT-CARDS    the three research project cards
+     ════════════════════════════════════════════════════════════════ -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- viewport meta: makes the page scale properly on phones -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept D — Living Cells (A × C hybrid)</title>
+
+<!-- ★EDIT-FONTS ── The two fonts used everywhere:
+     Fraunces = elegant serif  → headlines (h1-h4, logo, years)
+     Outfit   = clean sans     → body text, buttons, labels
+     Swap the family names in this Google Fonts URL to try others. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ════════════════ 1. DESIGN TOKENS  ★EDIT-COLORS ════════════════
+   These variables are reused on EVERY element. Change a value here
+   once and the whole site follows. Format: #RRGGBB or rgba().      */
+:root{
+  --bg:#F6F9F6;            /* page background (light mode, mint white) */
+  --card:#FFFFFF;          /* card / panel surfaces */
+  --ink:#1B2620;           /* main text colour */
+  --muted:#5E6E64;         /* secondary, softer text */
+  --teal:#0E7C66;          /* primary accent (links, badges, timeline) */
+  --green:#2D7A3A;         /* second accent (badges, gradients) */
+  --lime:#8FCB6B;          /* bright highlight (dots, mini-cells) */
+  --grad:linear-gradient(120deg,var(--teal),var(--green) 60%,#57A05B);
+                           /* the signature teal→green blend used on
+                              buttons, headline highlight, card edges  */
+  --line:#DCE7DD;          /* hairline borders between sections */
+  --glow:rgba(14,124,102,.12); /* translucent tint behind pills/badges */
+}
+/* DARK THEME — overrides ONLY the tokens that must differ.
+   Everything else (gradients, spacing) is inherited from :root.   */
+body.dark{
+  --bg:#0D1512;            /* deep forest background */
+  --card:#14201B;          /* raised surfaces */
+  --ink:#E4EEE7;           /* near-white text */
+  --muted:#93A69A;         /* softened secondary text */
+  --line:#22352C;          /* darker hairlines */
+  --glow:rgba(143,203,107,.10);
+}
+
+/* ════════════════ 2. BASE / RESET ════════════════
+   Removes browser defaults so spacing is predictable.              */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}   /* clicking menu items glides, not jumps */
+body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-weight:300;
+     line-height:1.65;transition:background .35s,color .35s;overflow-x:hidden}
+                               /* .35s ease = smooth theme-switch fade  */
+h1,h2,h3,h4{font-family:'Fraunces',serif}   /* serif for headings only */
+a{color:inherit;text-decoration:none}        /* links look like normal text */
+
+/* ════════════════ 3. TOP NAVIGATION BAR ════════════════
+   Sticky: stays pinned to the top while you scroll. The frosted
+   glass effect = semi-transparent bg + backdrop blur.              */
+nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
+    padding:16px 5vw;background:color-mix(in srgb,var(--bg) 78%,transparent);
+    backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem}
+.logo i{font-style:normal;color:var(--teal)}  /* colours the dot in the name */
+nav ul{display:flex;gap:28px;list-style:none;font-size:.92rem;font-weight:400}
+nav ul a{position:relative;color:var(--muted)}
+/* animated underline: a 2px bar grows from the left on hover */
+nav ul a::after{content:"";position:absolute;left:0;bottom:-3px;width:0;height:2px;background:var(--teal);
+                border-radius:2px;transition:width .3s}
+nav ul a:hover{color:var(--teal)}
+nav ul a:hover::after{width:100%}
+.theme-btn{border:1px solid var(--line);background:var(--card);width:38px;height:38px;border-radius:50%;
+           cursor:pointer;font-size:.95rem;color:var(--ink)}   /* the ◐ toggle */
+
+/* ════════════════ 4. HERO (first screen) ════════════════
+   Full-height intro. The <canvas> behind paints the cells;
+   .hero-grid splits the row into text (left) + portrait (right).  */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;padding:0 6vw;overflow:hidden}
+#cells{position:absolute;inset:0;width:100%;height:100%}  /* canvas fills hero */
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;
+           gap:clamp(24px,4vw,56px);align-items:center;width:100%;max-width:1180px;margin-inline:auto}
+                               /* z-index:2 keeps text ABOVE the canvas */
+.hero-inner{position:relative;z-index:2}
+
+/* Lab badge — this is a real link to your home lab. ★EDIT-LABLINK
+   The URL itself lives in the HTML below, not here.               */
+.kicker{display:inline-flex;align-items:center;gap:10px;font-family:'Outfit';font-size:.78rem;font-weight:600;
+        letter-spacing:.2em;text-transform:uppercase;color:var(--teal);background:var(--glow);
+        padding:8px 16px;border-radius:999px;margin-bottom:26px;transition:background .25s}
+.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lime)} /* little dot */
+.kicker:hover{background:rgba(14,124,102,.22)}    /* brightens on hover */
+
+/* Headline. clamp() = responsive size that scales with screen.
+   <em> inside h1 gets the teal→green gradient via background-clip. */
+.hero h1{font-size:clamp(2.6rem,5.4vw,4.5rem);line-height:1.08;font-weight:500;letter-spacing:-.01em}
+.hero h1 em{font-style:italic;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{margin-top:24px;max-width:560px;font-size:1.1rem;color:var(--muted)}
+.cta-row{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}   /* button row */
+.btn{font-family:'Outfit';font-weight:500;font-size:.95rem;padding:14px 32px;border-radius:999px;transition:all .25s}
+.btn.fill{background:var(--grad);color:#fff;box-shadow:0 12px 30px -10px rgba(14,124,102,.5)} /* green pill */
+.btn.fill:hover{transform:translateY(-2px)}
+.btn.line{border:1.5px solid var(--line);color:var(--ink)}                   /* outlined pill */
+.btn.line:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ── YOUR PORTRAIT ★EDIT-PHOTO ──────────────────────────────────
+   The photo is cut into an organic "blob" using uneven border-
+   radius values. A keyframe animation slowly morphs that shape,
+   and a blurred gradient halo glows behind it. Three tiny .mini-cell
+   dots float around the frame for extra life.                     */
+.portrait-wrap{position:relative;width:min(340px,80vw);justify-self:end}
+.portrait-wrap::before{content:"";position:absolute;inset:-16px;z-index:-1;
+  background:radial-gradient(circle at 30% 25%,var(--teal),transparent 60%),
+             radial-gradient(circle at 75% 80%,var(--lime),transparent 55%);
+  filter:blur(26px);opacity:.5;border-radius:58% 42% 55% 45%/52% 44% 56% 48%}
+.portrait-wrap img{display:block;width:100%;aspect-ratio:1/1.02;object-fit:cover;
+  border-radius:58% 42% 55% 45%/52% 44% 56% 48%;
+  box-shadow:0 24px 60px -20px rgba(14,124,102,.45);
+  animation:blobmorph 14s ease-in-out infinite}   /* 14s = one full morph */
+@keyframes blobmorph{            /* three shape waypoints = smooth loop */
+  0%,100%{border-radius:58% 42% 55% 45%/52% 44% 56% 48%}
+  33%{border-radius:46% 54% 42% 58%/58% 46% 54% 42%}
+  66%{border-radius:52% 48% 60% 40%/44% 58% 42% 56%}}
+.mini-cell{position:absolute;border-radius:50%;pointer-events:none}
+.mc1{width:26px;height:26px;background:var(--teal);opacity:.5;top:-14px;left:-20px;
+     animation:floaty 6s ease-in-out infinite}
+.mc2{width:15px;height:15px;background:var(--lime);opacity:.65;bottom:8%;left:-34px;
+     animation:floaty 7.5s ease-in-out .8s infinite}      /* .8s = starts later */
+.mc3{width:20px;height:20px;background:var(--green);opacity:.45;top:16%;right:-22px;
+     animation:floaty 6.8s ease-in-out 1.6s infinite}
+@keyframes floaty{50%{transform:translateY(-14px)}}  /* gentle up-down bob */
+@media (max-width:900px){          /* on phones: photo stacks above text */
+  .hero-grid{grid-template-columns:1fr}
+  .portrait-wrap{width:min(240px,64vw);justify-self:start;margin-bottom:10px}}
+
+/* Organic wave divider between hero and first section (inline SVG). */
+.divider{display:block;width:100%;height:64px;margin-top:-40px}
+
+/* ════════════════ 5. SCROLL REVEALS ════════════════
+   Any element with class "rv" starts invisible & shifted down 26px.
+   The JavaScript IntersectionObserver adds .visible when it enters
+   the viewport → CSS transitions fade/slide it into place.        */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.rv.visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}
+  .portrait-wrap img,.mini-cell{animation:none!important}}
+
+/* ════════════════ 6. CONTENT SECTIONS ════════════════ */
+section{padding:80px 6vw}
+.sec-head{margin-bottom:44px}
+.sec-tag{font-family:'Outfit';font-size:.74rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--teal)}
+.sec-head h2{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:500;margin-top:8px}
+
+/* ── Project cards ★EDIT-CARDS ─────────────────────────────────
+   Responsive grid: cards keep min 290px width and wrap automatically.
+   .art strips are gradient headers with a faint white SVG doodle
+   (mix-blend-mode soft-light keeps it subtle).                    */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:30px;overflow:hidden;
+      transition:transform .35s,box-shadow .35s,border-color .35s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-8px);box-shadow:0 24px 48px -20px rgba(14,124,102,.35)}
+.art{height:165px;position:relative}
+.a1{background:linear-gradient(135deg,#0E7C66,#15997F)}   /* card 1 gradient */
+.a2{background:linear-gradient(135deg,#2D7A3A,#4E9B54)}   /* card 2 gradient */
+.a3{background:linear-gradient(135deg,#57A05B,#8FCB6B)}   /* card 3 gradient */
+.art svg{position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:soft-light}
+.card-body{padding:26px 26px 30px}
+.tag{display:inline-block;font-family:'Outfit';font-size:.68rem;font-weight:700;letter-spacing:.16em;
+     text-transform:uppercase;color:var(--teal);background:var(--glow);padding:5px 13px;border-radius:999px;margin-bottom:14px}
+.card h3{font-size:1.22rem;font-weight:600;line-height:1.35;margin-bottom:10px}
+.card p{font-size:.93rem;color:var(--muted)}
+
+/* ── Publications list ──────────────────────────────────────────
+   Each row = big serif year + title + authors + status badge.
+   ::before paints the 4px gradient spine on the left edge.        */
+.pub-list{display:flex;flex-direction:column;gap:16px;max-width:920px}
+.pub{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px 30px;
+     display:flex;gap:24px;align-items:flex-start;position:relative;overflow:hidden}
+.pub::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--grad)}
+.yr{font-family:'Fraunces',serif;font-weight:600;font-size:1.45rem;color:var(--teal);min-width:64px}
+.pub h4{font-weight:600;font-size:1.05rem;line-height:1.42}
+.meta{font-size:.86rem;color:var(--muted);margin-top:6px}
+.badge{display:inline-block;font-family:'Outfit';font-size:.66rem;font-weight:700;letter-spacing:.12em;
+       text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-top:12px}
+.badge.rev{color:var(--teal);background:var(--glow)}            /* under review */
+.badge.publ{color:var(--green);background:rgba(45,122,58,.13)}  /* published */
+
+/* ── Milestones timeline ────────────────────────────────────────
+   A vertical 2px line (teal→lime) with a dot per entry; the newest
+   entry gets a lime dot via :first-child.                         */
+.timeline{position:relative;max-width:720px;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;
+                  background:linear-gradient(var(--teal),var(--lime));border-radius:2px}
+.tl-item{position:relative;padding:0 0 30px 20px}
+.tl-item::before{content:"";position:absolute;left:-31px;top:7px;width:13px;height:13px;border-radius:50%;
+                 background:var(--bg);border:3px solid var(--teal);box-shadow:0 0 0 4px var(--glow)}
+.tl-item:first-child::before{background:var(--lime);border-color:var(--lime)}
+.tl-date{font-family:'Outfit';font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
+.tl-item h4{font-size:1.06rem;font-weight:600;margin:4px 0}
+.tl-item p{font-size:.9rem;color:var(--muted)}
+
+/* ════════════════ 7. FOOTER ════════════════ */
+footer{border-top:1px solid var(--line);padding:70px 6vw;text-align:center}
+footer h3{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;font-weight:500;margin-bottom:12px}
+footer a{color:var(--teal)}footer small{color:var(--muted);display:block;margin-top:22px}
+</style>
+</head>
+
+<!-- body.dark → site OPENS in dark mode. Remove this class if you
+     ever want light-first. The ◐ button flips it at runtime.       -->
+<body class="dark">
+
+<!-- ══════════ NAVIGATION ★EDIT-MENU ══════════
+     Add/remove <li> items to change menu entries.                  -->
+<nav>
+  <div class="logo">Abhishek<i>.</i>Ajith</div>
+  <ul>
+    <li><a href="#work">Research</a></li>
+    <li><a href="#pubs">Publications</a></li>
+    <li><a href="#news">Milestones</a></li>
+    <li><a href="#cv">CV</a></li>
+  </ul>
+  <button class="theme-btn" onclick="toggleTheme()">◐</button>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero">
+  <!-- canvas: the JavaScript paints all background cells here -->
+  <canvas id="cells"></canvas>
+
+  <div class="hero-grid">
+    <div class="hero-inner">
+      <!-- ★EDIT-LABLINK — your home lab. target="_blank" opens a new tab.
+           Change the visible words between > and </a> to rename it. -->
+      <a class="kicker" href="https://www.gssailaja.org/" target="_blank" rel="noopener"
+         title="Regenerative Biomaterials and Theranostics Laboratory">Regenerative Biomaterials · CUSAT</a>
+
+      <!-- ★EDIT-TEXT — your headline & intro. <br> = manual line break,
+           <em>…</em> = the gradient-highlighted words.              -->
+      <h1>Living materials that<br><em>heal</em>, see &amp; disappear.</h1>
+      <p class="sub">PhD researcher at the Regenerative Biomaterials and Theranostics Laboratory — designing inherently radiopaque, biodegradable implants for orthopaedic repair and locoregional cancer therapy.</p>
+      <div class="cta-row">
+        <a class="btn fill" href="#work">Explore research</a>
+        <a class="btn line" href="#cv">Download CV ↓</a>
+      </div>
+    </div>
+
+    <!-- ★EDIT-PHOTO — portrait. Keep prof_pic.jpg beside this file,
+         or swap src for any other image path/URL. The three spans
+         below are the floating mini-cells around the frame.        -->
+    <div class="portrait-wrap">
+      <img src="prof_pic.jpg" alt="Portrait of Abhishek Ajith">
+      <span class="mini-cell mc1"></span><span class="mini-cell mc2"></span><span class="mini-cell mc3"></span>
+    </div>
+  </div>
+</header>
+
+<!-- wave divider (pure decoration) -->
+<svg class="divider" viewBox="0 0 1440 64" preserveAspectRatio="none"><path d="M0 46 C260 12 520 62 760 34 C1000 8 1240 54 1440 26 L1440 64 L0 64 Z" fill="var(--line)" opacity=".45"/></svg>
+
+<!-- ══════════ SECTION 01 · PROJECTS ★EDIT-CARDS ══════════
+     Copy/paste any <article class="card"> block to add a project.
+     Keep transition-delay staggered (.12s, .24s …) for the cascade. -->
+<section id="work">
+  <div class="sec-head rv"><span class="sec-tag">01 · Featured research</span><h2>Growing in the lab right now</h2></div>
+  <div class="cards">
+    <article class="card rv">
+      <div class="art a1"><svg viewBox="0 0 200 110" preserveAspectRatio="none"><path d="M0 85 Q40 38 80 76 T160 58 T240 82" fill="none" stroke="#fff" stroke-width="2.4"/></svg></div>
+      <div class="card-body"><span class="tag">Bone repair</span>
+        <h3>Osteogenic 3D-Printable Radiopaque Fixators</h3>
+        <p>X-ray-visible, early osteogenic fixators for diabetic orthopaedic and craniomaxillofacial repair.</p></div>
+    </article>
+    <article class="card rv" style="transition-delay:.12s">
+      <div class="art a2"><svg viewBox="0 0 200 110" preserveAspectRatio="none"><circle cx="70" cy="56" r="26" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="134" cy="48" r="17" fill="none" stroke="#fff" stroke-width="2"/></svg></div>
+      <div class="card-body"><span class="tag">Theranostics</span>
+        <h3>Radiopaque TACE Embolics for HCC</h3>
+        <p>Biodegradable imageable embolics enabling locoregional hepatocellular carcinoma therapy.</p></div>
+    </article>
+    <article class="card rv" style="transition-delay:.24s">
+      <div class="art a3"><svg viewBox="0 0 200 110" preserveAspectRatio="none"><path d="M-10 32 Q30 20 60 36 T140 30 T220 42" fill="none" stroke="#fff" stroke-width="2"/><path d="M-10 70 Q40 58 80 74 T180 66 T230 78" fill="none" stroke="#fff" stroke-width="2"/></svg></div>
+      <div class="card-body"><span class="tag">Periodontics</span>
+        <h3>Nanocellulose–Brushite Self-Setting Composites</h3>
+        <p>Early-biomineralizing radiopaque cements engineered for periodontal regeneration.</p></div>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════ SECTION 02 · PUBLICATIONS ══════════
+     Duplicate a .pub block per paper. Badge classes:
+       badge rev  → “Under review”   badge publ → “Published”      -->
+<section id="pubs" style="background:var(--card);border-block:1px solid var(--line)">
+  <div class="sec-head rv"><span class="sec-tag">02 · Selected publications</span><h2>Written work</h2></div>
+  <div class="pub-list">
+    <div class="pub rv"><div class="yr">2026</div><div>
+      <h4>Early Biomineralizing Radiopaque Phosphorylated Nanocellulose Intercalated Brushite Self-Setting Composites for Periodontal Regeneration</h4>
+      <div class="meta">Sneha K.R., <strong>Ajith A.</strong>, Muhammed Musthafa C.P., Cheemadan S., Sailaja G.S. — <em>Ceramics International</em></div>
+      <span class="badge rev">Under review</span></div></div>
+    <div class="pub rv" style="transition-delay:.12s"><div class="yr">2026</div><div>
+      <h4>Reclaimed Wastewater in the Semiconductor Industry</h4>
+      <div class="meta">Ambakkattu A.R., <strong>Ajith A.</strong>, Mathew J. — <em>Handbook of Environmental Chemistry</em>, Springer</div>
+      <span class="badge publ">Book chapter</span></div></div>
+  </div>
+</section>
+
+<!-- ══════════ SECTION 03 · MILESTONES (news timeline) ══════════
+     Newest first. Duplicate a .tl-item block to add an entry.      -->
+<section id="news">
+  <div class="sec-head rv"><span class="sec-tag">03 · Milestones</span><h2>Recent signal</h2></div>
+  <div class="timeline">
+    <div class="tl-item rv"><span class="tl-date">Aug 2026</span>
+      <h4>Manuscript submitted to Ceramics International</h4><p>Radiopaque nanocellulose–brushite composites for periodontal regeneration.</p></div>
+    <div class="tl-item rv"><span class="tl-date">Feb 2026</span>
+      <h4>Qualified GATE 2026</h4><p>Graduate Aptitude Test in Engineering.</p></div>
+    <div class="tl-item rv"><span class="tl-date">Jan 2026</span>
+      <h4>Springer book chapter published</h4><p>Reclaimed wastewater in the semiconductor industry.</p></div>
+    <div class="tl-item rv"><span class="tl-date">2025</span>
+      <h4>Began PhD at RBT Lab, CUSAT</h4><p>Under the supervision of Prof. G.S. Sailaja.</p></div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER (CV link lives here) ══════════ -->
+<footer id="cv">
+  <h3 class="rv">Let’s grow biomaterials that heal.</h3>
+  <p class="rv"><a href="#">Download full CV (PDF)</a></p>
+  <small>© 2026 Abhishek Ajith · Kochi, India</small>
+</footer>
+
+<script>
+/* ════════════════════════ JAVASCRIPT GUIDE ════════════════════════
+   Three independent features live here:
+     A. toggleTheme()  — light/dark switch
+     B. Cell system    — the living-cells canvas animation
+     C. Reveal system  — fade-in-on-scroll
+   ★EDIT-CELLS marks every number that is safe to tweak.           */
+
+/* ──────────────── A. THEME TOGGLE ──────────────── */
+/* Flips the .dark class on <body>; CSS variables do the rest.
+   Then re-tints every existing cell so the canvas matches instantly
+   (otherwise cells would keep the old theme's colours until they
+   happened to divide).                                            */
+function toggleTheme(){document.body.classList.toggle('dark');
+  const p=pal();cells.forEach(c=>c.c=rndPal(p));}
+
+/* ──────────────── B1. CANVAS SETUP ──────────────── */
+const cv=document.getElementById('cells'),ctx=cv.getContext('2d');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* If the visitor asked their OS for "reduce motion", we draw ONE
+   static frame and skip all looping — accessibility requirement.  */
+
+let W,H,          /* canvas size in CSS pixels            */
+    DPR,          /* devicePixelRatio → sharpness on retina */
+    cells=[],     /* every living cell object lives here   */
+    mouse={x:-9999,y:-9999},   /* cursor pos; off-screen default */
+    lastDiv=0,    /* timestamp of the last mitosis event   */
+    nextDiv=1200; /* ms until the NEXT division is allowed
+                     ★EDIT-CELLS smaller = divisions start sooner */
+
+/* Colour sets per theme: [hue, saturation%, lightness%] triples.
+   Light mode = deeper tones so pale cells stay visible on white;
+   dark mode  = brighter, slightly desaturated glows.
+   ★EDIT-CELLS change hues here (0=red · 120=green · 180=teal).   */
+const PALETTES={
+  light:[[168,52,46],[140,40,44],[96,48,54]],
+  dark :[[160,60,56],[130,50,54],[92,55,64]]
+};
+function pal(){return document.body.classList.contains('dark')?PALETTES.dark:PALETTES.light;}
+function rndPal(p){return p[Math.floor(Math.random()*p.length)];}  /* pick one at random */
+
+/* ──────────────── B2. THE CELL OBJECT ──────────────── */
+function Cell(x,y,r,c){
+  this.x=x; this.y=y;        /* current position      */
+  this.r=r; this.br=r;       /* radius + resting radius ("breath" target) */
+  this.c=c.slice();          /* own copy of its colour triple     */
+  const a=Math.random()*Math.PI*2,          /* random drift angle  */
+        s=.06+Math.random()*.1;             /* drift speed px/frame ★EDIT-CELLS */
+  this.vx=Math.cos(a)*s; this.vy=Math.sin(a)*s;
+  this.ph=Math.random()*Math.PI*2;          /* phase offset so cells don't breathe in sync */
+  this.bs=.0006+Math.random()*.0012;        /* breathing speed  ★EDIT-CELLS */
+  this.ax=null;              /* division axis — null = not dividing */
+  this.dt=0;                 /* seconds elapsed since division began */
+}
+
+/* Fill the dish. Count adapts to screen width:
+   desktop 28 · tablet/phone 18 · reduced-motion 10. ★EDIT-CELLS  */
+function spawn(n){
+  const p=pal();
+  for(let i=0;i<n;i++)
+    cells.push(new Cell(Math.random()*W,Math.random()*H,22+Math.random()*48,rndPal(p)));}
+                                 /* ↑ radius range px ★EDIT-CELLS */
+
+/* Match canvas resolution to screen sharpness (retina crispness). */
+function resize(){DPR=Math.min(devicePixelRatio||1,2);
+  W=cv.offsetWidth;H=cv.offsetHeight;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
+
+/* ──────────────── B3. ONE ANIMATION FRAME ────────────────
+   Runs ~60× per second. Order of work:
+   1) maybe trigger a mitosis   2) clear canvas   3) move+draw each  */
+function step(t){
+  /* MITOSIS TIMER — when enough time passed AND population is under
+     the cap (36 desktop / 22 phone), pick a random idle cell and
+     give it a random division axis. ★EDIT-CELLS both numbers.      */
+  if(!reduced&&t-lastDiv>nextDiv&&cells.length<(W<700?22:36)){
+    lastDiv=t;nextDiv=1500+Math.random()*1100;   /* next window 1.5–2.6s */
+    const c=cells[Math.floor(Math.random()*cells.length)];
+    if(c&&c.ax==null){c.ax=Math.random()*Math.PI*2;c.dt=0;}
+  }
+  ctx.clearRect(0,0,W,H);        /* wipe previous frame */
+  const dark=document.body.classList.contains('dark');
+
+  for(let i=cells.length-1;i>=0;i--){const c=cells[i];
+
+    /* CURSOR REACTION: inside a 170px radius a cell is gently pushed
+       away — strength fades linearly to zero at the edge. Feel =
+       stirring a petri dish. ★EDIT-CELLS radius & push force .05.  */
+    let dx=c.x-mouse.x,dy=c.y-mouse.y,d=Math.hypot(dx,dy);
+    if(d<170&&d>0){const f=(1-d/170)*.05;c.vx+=dx/d*f;c.vy+=dy/d*f;}
+
+    c.vx*=.985;c.vy*=.985;       /* friction so pushes settle down */
+    c.x+=c.vx;c.y+=c.vy;
+
+    /* WRAP-AROUND: drifting off one edge re-enters from the other,
+       keeping the dish permanently populated.                      */
+    if(c.x<-90)c.x=W+90;if(c.x>W+90)c.x=-90;
+    if(c.y<-90)c.y=H+90;if(c.y>H+90)c.y=-90;
+
+    /* DIVIDING STATE: over 1.6s the cell pinches into two lobes that
+       slide apart along its axis, then it is replaced by two real
+       daughter cells with averaged colour. k goes 0→1.             */
+    if(c.ax!=null){
+      c.dt+=.016;                                   /* ≈ one frame */
+      const k=Math.min(c.dt/1.6,1),off=k*c.br*.85,cr=c.br*(1-k*.28);
+      const ox=Math.cos(c.ax)*off,oy=Math.sin(c.ax)*off;
+      lobe(c.x-ox,c.y-oy,cr,c.c,k,dark);lobe(c.x+ox,c.y+oy,cr,c.c,k,dark);
+      if(k>=1){cells.splice(i,1);                   /* parent dies…   */
+        cells.push(new Cell(c.x-Math.cos(c.ax)*off,c.y-Math.sin(c.ax)*off,cr,mix(c.c)));
+        cells.push(new Cell(c.x+Math.cos(c.ax)*off,c.y+Math.sin(c.ax)*off,cr,mix(c.c)));}
+        /* …two daughters born, offset along the same axis.         */
+      continue;                     /* skip normal drawing below    */
+    }
+
+    /* NORMAL STATE: radius oscillates ±7% around rest size — the
+       "breathing". Then draw as one soft lobe.                     */
+    c.r=c.br*(1+.07*Math.sin(t*c.bs+c.ph));
+    lobe(c.x,c.y,c.r,c.c,null,dark);
+  }
+}
+/* Blend a daughter's colour halfway between parent and a fresh
+   palette pick — keeps the colony varied but harmonious.           */
+function mix(c){const t=rndPal(pal());return[t[0],(c[1]+t[1])/2,(c[2]+t[2])/2];}
+
+/* DRAW ONE CELL — three layered radial gradients:
+   outer glow → body → tiny darker "nucleus" dot in the centre.
+   alpha is deliberately low (.10–.15) so overlapping cells stay
+   subtle. ★EDIT-CELLS raise alpha for bolder cells.                */
+function lobe(x,y,r,c,k,dark){
+  const[h,s,l]=c,alpha=(dark?.15:.10)*(k==null?1:(1-.3*Math.abs(k-.5)));
+  const g=ctx.createRadialGradient(x,y,r*.15,x,y,r);
+  g.addColorStop(0,`hsla(${h},${s}%,${l}%,${alpha})`);
+  g.addColorStop(.75,`hsla(${h},${s}%,${l}%,${alpha*.45})`);
+  g.addColorStop(1,`hsla(${h},${s}%,${l}%,0)`);       /* fades to nothing */
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();
+  ctx.fillStyle=`hsla(${h},${s}%,${l}%,${alpha*.9})`;               /* nucleus */
+  ctx.beginPath();ctx.arc(x,y,r*.16,0,7);ctx.fill();
+}
+
+/* ──────────────── B4. BOOT SEQUENCE ──────────────── */
+resize();spawn(reduced?10:(W<700?18:28));                 /* first paint */
+addEventListener('resize',()=>{resize();});               /* keep crisp  */
+if(reduced){step(1000);}                                  /* static frame only */
+
+/* Track the cursor RELATIVE to the hero so cells react only there. */
+cv.parentElement.addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect();
+  mouse.x=e.clientX-b.left;mouse.y=e.clientY-b.top;});
+cv.parentElement.addEventListener('pointerleave',()=>{mouse.x=-9999;mouse.y=-9999;});
+
+/* THE LOOP — requestAnimationFrame calls step() once per display
+   refresh (~60fps) and passes a millisecond timestamp as t.        */
+if(!reduced){(function loop(t){step(t||0);requestAnimationFrame(loop)})(0);}
+
+/* ──────────────── C. REVEAL ON SCROLL ────────────────
+   Watches every element carrying class="rv". When ≥15% of it
+   enters the viewport we add .visible (CSS then fades/slides it
+   in) and stop watching — each element animates only once.        */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
