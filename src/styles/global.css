@@ -87,31 +87,13 @@ nav ul a:hover::after{width:100%}
 
 /* ── YOUR PORTRAIT ★EDIT-PHOTO ──────────────────────────────────
    prof_pic.jpg is a TIGHT headshot square (720x720).
-   CSS clips it to a perfect circle with a soft teal/lime halo
-   and three tiny .mini-cell dots floating around the frame.
-   object-position tweaks vertical framing if needed.            */
-.portrait-wrap{position:relative;width:min(340px,80vw);justify-self:end}
-.portrait-wrap::before{content:"";position:absolute;inset:-16px;z-index:-1;
-  background:radial-gradient(circle at 30% 25%,var(--teal),transparent 60%),
-             radial-gradient(circle at 75% 80%,var(--lime),transparent 55%);
-  filter:blur(26px);opacity:.5;border-radius:50%}
+   Clean 1:1 square, no circle mask, no halo.                     */
+.portrait-wrap{width:min(340px,80vw);justify-self:end}
 .portrait-wrap img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;
-  object-position:50% 28%;border-radius:50%;
-  box-shadow:0 24px 60px -20px rgba(14,124,102,.45)}
-.mini-cell{position:absolute;border-radius:50%;pointer-events:none}
-.mc1{width:26px;height:26px;background:var(--teal);opacity:.5;top:-14px;left:-20px;
-     animation:floaty 6s ease-in-out infinite}
-.mc2{width:15px;height:15px;background:var(--lime);opacity:.65;bottom:8%;left:-34px;
-     animation:floaty 7.5s ease-in-out .8s infinite}      /* .8s = starts later */
-.mc3{width:20px;height:20px;background:var(--green);opacity:.45;top:16%;right:-22px;
-     animation:floaty 6.8s ease-in-out 1.6s infinite}
-@keyframes floaty{50%{transform:translateY(-14px)}}  /* gentle up-down bob */
+  box-shadow:0 24px 60px -20px rgba(14,124,102,.25)}
 @media (max-width:900px){          /* on phones: photo stacks below text */
   .hero-grid{grid-template-columns:1fr}
-  .portrait-wrap{width:min(240px,64vw);justify-self:center;margin-bottom:10px}}
-
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}
-  .portrait-wrap img,.mini-cell{animation:none!important}}
+  .portrait-wrap{width:min(240px,64vw);justify-self:center;margin-top:24px}}
 
 /* Organic wave divider between hero and first section (inline SVG). */
 .divider{display:block;width:100%;height:64px;margin-top:-40px}
