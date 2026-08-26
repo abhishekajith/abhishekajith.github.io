@@ -1,7 +1,7 @@
 ---
 // ─────────────────────────────────────────────────────────────
 // HERO - first screen: animated cell canvas behind a two-column
-// grid of headline text (left) + blob-masked portrait (right).
+// grid of ring-framed portrait (left) + headline text (right).
 // Animation logic lives in src/scripts/cells.js.
 // ─────────────────────────────────────────────────────────────
 import { site } from '../data/site.js';
@@ -11,6 +11,13 @@ import { site } from '../data/site.js';
   <canvas id="cells"></canvas>
 
   <div class="hero-grid">
+    <!-- portrait FIRST = photo sits LEFT of the headline on desktop,
+         and stacks above the text on narrow screens -->
+    <div class="portrait-wrap">
+      <img src={site.portrait} alt={site.portraitAlt} width="720" height="720" loading="eager" />
+      <span class="mini-cell mc1"></span><span class="mini-cell mc2"></span><span class="mini-cell mc3"></span>
+    </div>
+
     <div class="hero-inner">
       <a class="kicker" href={site.lab.url} target="_blank" rel="noopener" title={site.lab.title}>
         {site.lab.label}
@@ -25,11 +32,6 @@ import { site } from '../data/site.js';
         <a class="btn fill" href="#work">Explore research</a>
         <a class="btn line" href={site.cvUrl} target="_blank" rel="noopener">Download CV ↓</a>
       </div>
-    </div>
-
-    <div class="portrait-wrap">
-      <img src={site.portrait} alt={site.portraitAlt} width="720" height="720" loading="eager" />
-      <span class="mini-cell mc1"></span><span class="mini-cell mc2"></span><span class="mini-cell mc3"></span>
     </div>
   </div>
 </header>
