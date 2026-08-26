@@ -1,21 +1,13 @@
-_site
-.bundle
-.DS_store
-.idea
-.jekyll-cache
-.jekyll-metadata
-.ruby-version
-.sass-cache
-.tweet-cache
-.venv
-assets/libs/
-assets/rendercv/rendercv_output/*.typ
-al-folio-upgrade-report.md
+# build output
+dist/
+# generated types
+.astro/
+# dependencies
 node_modules/
-output/playwright/
-test-results/
-vendor
-
-# Python bytecode from bin/ helper scripts
-__pycache__/
-*.pyc
+# environment variables
+.env
+.env.production
+# macOS-specific files
+.DS_Store
+# jetbrains setting folder
+.idea/

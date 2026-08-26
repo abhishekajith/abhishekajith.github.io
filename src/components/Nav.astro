@@ -1,0 +1,23 @@
+---
+// ─────────────────────────────────────────────────────────────
+// NAVIGATION BAR  ★EDIT-MENU: add/remove <li> items below.
+// The ◐ button toggles dark/light (wired up in scripts/cells.js).
+// ─────────────────────────────────────────────────────────────
+import { site } from '../data/site.js';
+const menu = [
+  { label: 'Research', href: '/#work' },
+  { label: 'Publications', href: '/publications/' },
+  { label: 'Milestones', href: '/#news' },
+];
+---
+
+<nav>
+  <div class="logo" set:html={site.logoHtml} />
+  <ul>
+    {menu.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+    <li><a href={site.cvUrl} target="_blank" rel="noopener">CV</a></li>
+  </ul>
+  <button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode">◐</button>
+</nav>

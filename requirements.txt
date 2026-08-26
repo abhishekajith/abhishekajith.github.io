@@ -1,4 +1,0 @@
-nbconvert
-pyyaml
-rendercv[full]==2.6
-scholarly

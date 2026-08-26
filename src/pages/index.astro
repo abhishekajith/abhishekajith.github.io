@@ -1,0 +1,98 @@
+---
+// ─────────────────────────────────────────────────────────────
+// HOMEPAGE — hero → research cards → featured publications →
+// milestones timeline. All text comes from src/data/*.
+// ─────────────────────────────────────────────────────────────
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import { site } from '../data/site.js';
+import { research } from '../data/research.js';
+import { publications, FEATURED } from '../data/publications.js';
+import { news } from '../data/news.js';
+
+const featured = publications.slice(0, FEATURED);
+
+// Decorative SVG doodles for the card header strips
+const icons: Record<string, string> = {
+  wave: '<path d="M0 85 Q40 38 80 76 T160 58 T240 82" fill="none" stroke="#fff" stroke-width="2.4"/>',
+  cells:
+    '<circle cx="70" cy="56" r="26" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="134" cy="48" r="17" fill="none" stroke="#fff" stroke-width="2"/>',
+  fibers:
+    '<path d="M-10 32 Q30 20 60 36 T140 30 T220 42" fill="none" stroke="#fff" stroke-width="2"/><path d="M-10 70 Q40 58 80 74 T180 66 T230 78" fill="none" stroke="#fff" stroke-width="2"/>',
+};
+
+const statusLabel = (s: string) => (s === 'review' ? 'Under review' : s === 'published' ? 'Published' : s);
+const statusClass = (s: string) => (s === 'review' ? 'rev' : s === 'published' ? 'publ' : 'publ');
+---
+
+<BaseLayout>
+  <Hero />
+
+  <!-- ════════ SECTION 01 · RESEARCH CARDS ════════ -->
+  <section id="work">
+    <div class="sec-head rv">
+      <span class="sec-tag">01 · Featured research</span>
+      <h2>Growing in the lab right now</h2>
+    </div>
+    <div class="cards">
+      {research.map((p, i) => (
+        <article class="card rv" style={`transition-delay:${i * 0.12}s`}>
+          <div class="art" style={`background:linear-gradient(135deg,${p.grad[0]},${p.grad[1]})`}>
+            <svg viewBox="0 0 200 110" preserveAspectRatio="none" set:html={icons[p.icon] ?? ''} />
+          </div>
+          <div class="card-body">
+            <span class="tag">{p.tag}</span>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ════════ SECTION 02 · FEATURED PUBLICATIONS ════════ -->
+  <section id="pubs" style="background:var(--card);border-block:1px solid var(--line)">
+    <div class="sec-head rv">
+      <span class="sec-tag">02 · Selected publications</span>
+      <h2>Written work</h2>
+    </div>
+    <div class="pub-list">
+      {featured.map((pub, i) => (
+        <div class="pub rv" style={i > 0 ? 'transition-delay:.12s' : undefined}>
+          <div class="yr">{pub.year}</div>
+          <div>
+            <h4>{pub.title}</h4>
+            <div class="meta">
+              {/* bold your own name in the author list */}
+              <Fragment set:html={pub.authors.replace(/Ajith A\./, '<strong>Ajith A.</strong>')} />
+              {' — '}<em>{pub.venue}</em>
+            </div>
+            <span class={`badge ${statusClass(pub.status)}`}>{statusLabel(pub.status)}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ════════ SECTION 03 · MILESTONES ════════ -->
+  <section id="news">
+    <div class="sec-head rv">
+      <span class="sec-tag">03 · Milestones</span>
+      <h2>Recent signal</h2>
+    </div>
+    <div class="timeline">
+      {news.map((n) => (
+        <div class="tl-item rv">
+          <span class="tl-date">{n.date}</span>
+          <h4>{n.title}</h4>
+          <p>{n.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- teaser line pointing at the full list -->
+  <section style="padding-top:0;text-align:center">
+    <a class="btn line" href="/publications/">All publications →</a>
+  </section>
+</BaseLayout>
