@@ -1,97 +1,41 @@
 ---
-// ─────────────────────────────────────────────────────────────
-// HOMEPAGE - hero → research cards → featured publications →
-// milestones timeline. All text comes from src/data/*.
-// ─────────────────────────────────────────────────────────────
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import { site } from '../data/site.js';
-import { research } from '../data/research.js';
-import { publications, FEATURED } from '../data/publications.js';
-import { news } from '../data/news.js';
+import Layout from '../layouts/Layout.astro'
 
-const featured = publications.slice(0, FEATURED);
+import { profile } from '@/settings'
+import { publications } from '@/data/cv'
+import { news } from '@/data/news'
+import ProfilePictures from '@/assets/prof_pic.jpg'
+import Hero from '@/components/ui/Hero.astro'
+import Grid from '@/components/ui/Grid.astro'
+import ArticleList from '@/components/ui/ArticleList.astro'
+import News from '@/components/ui/News.astro'
 
-// Decorative SVG doodles for the card header strips
-const icons: Record<string, string> = {
-  wave: '<path d="M0 85 Q40 38 80 76 T160 58 T240 82" fill="none" stroke="#fff" stroke-width="2.4"/>',
-  cells:
-    '<circle cx="70" cy="56" r="26" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="134" cy="48" r="17" fill="none" stroke="#fff" stroke-width="2"/>',
-  fibers:
-    '<path d="M-10 32 Q30 20 60 36 T140 30 T220 42" fill="none" stroke="#fff" stroke-width="2"/><path d="M-10 70 Q40 58 80 74 T180 66 T230 78" fill="none" stroke="#fff" stroke-width="2"/>',
-};
-
-const statusLabel = (s: string) => (s === 'review' ? 'Under review' : s === 'published' ? 'Published' : s);
-const statusClass = (s: string) => (s === 'review' ? 'rev' : s === 'published' ? 'publ' : 'publ');
+const { fullName, title, institute, research_areas } = profile
 ---
 
-<BaseLayout>
-  <Hero />
+<Layout>
+	<!-- Hero Section -->
+	<section class='flex items-center gap-12 border-b pb-12'>
+		<Hero
+			fullName={fullName}
+			title={title}
+			institute={institute}
+			profilePicture={ProfilePictures}
+		/>
+	</section>
 
-  <!-- ════════ SECTION 01 · RESEARCH CARDS ════════ -->
-  <section id="work">
-    <div class="sec-head rv">
-      <span class="sec-tag">01 · Research</span>
-      <h2>Ongoing Projects</h2>
-    </div>
-    <div class="cards">
-      {research.map((p, i) => (
-        <article class="card rv" style={`transition-delay:${i * 0.12}s`}>
-          <div class="art" style={`background:linear-gradient(135deg,${p.grad[0]},${p.grad[1]})`}>
-            <svg viewBox="0 0 200 110" preserveAspectRatio="none" set:html={icons[p.icon] ?? ''} />
-          </div>
-          <div class="card-body">
-            <span class="tag">{p.tag}</span>
-            <h3>{p.title}</h3>
-            <p>{p.text}</p>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
+	<!-- News / Milestones -->
+	<section class='py-12 border-b'>
+		<News newsTitle='Recent News' items={news} />
+	</section>
 
-  <!-- ════════ SECTION 02 · FEATURED PUBLICATIONS ════════ -->
-  <section id="pubs" style="background:var(--card);border-block:1px solid var(--line)">
-    <div class="sec-head rv">
-      <span class="sec-tag">02 · Publications</span>
-      <h2>Selected Publications</h2>
-    </div>
-    <div class="pub-list">
-      {featured.map((pub, i) => (
-        <div class="pub rv" style={i > 0 ? 'transition-delay:.12s' : undefined}>
-          <div class="yr">{pub.year}</div>
-          <div>
-            <h4>{pub.title}</h4>
-            <div class="meta">
-              {/* bold your own name in the author list */}
-              <Fragment set:html={pub.authors.replace(/Ajith A\./, '<strong>Ajith A.</strong>')} />
-              {' - '}<em>{pub.venue}</em>
-            </div>
-            <span class={`badge ${statusClass(pub.status)}`}>{statusLabel(pub.status)}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-    <!-- jump to the full list, right under the featured entries -->
-    <div class="rv" style="margin-top:30px;text-align:center">
-      <a class="btn line" href="/publications/">All Publications →</a>
-    </div>
-  </section>
+	<!-- Research Areas -->
+	<section class='py-12 border-b'>
+		<Grid gridTitle='Research Areas' gridItems={research_areas} />
+	</section>
 
-  <!-- ════════ SECTION 03 · MILESTONES ════════ -->
-  <section id="news">
-    <div class="sec-head rv">
-      <span class="sec-tag">03 · News</span>
-      <h2>Milestones &amp; Updates</h2>
-    </div>
-    <div class="timeline">
-      {news.map((n) => (
-        <div class="tl-item rv">
-          <span class="tl-date">{n.date}</span>
-          <h4>{n.title}</h4>
-          <p>{n.text}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-</BaseLayout>
+	<!-- Recent Publications -->
+	<section class='py-12 border-t'>
+		<ArticleList listTitle='Recent Publications' listItems={publications} />
+	</section>
+</Layout>

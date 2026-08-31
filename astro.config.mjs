@@ -1,15 +1,16 @@
-import { defineConfig } from 'astro/config';
+// @ts-check
+import { defineConfig } from "astro/config";
 
-// ─────────────────────────────────────────────────────────────
-// Astro configuration
-//
-// `site` tells Astro your final URL so it can generate correct
-// canonical links, sitemaps, and Open Graph URLs.
-// Because abhishekajith.github.io is a USER site (repo name ==
-// username.github.io), the site lives at the domain root - so no
-// `base` value is needed. If you ever move to a PROJECT site
-// (repo like `portfolio`), add:  base: '/portfolio'
-// ─────────────────────────────────────────────────────────────
+import react from "@astrojs/react";
+import tailwind from "@astrojs/tailwind";
+
+import { template } from "./src/settings";
+
+import sitemap from "@astrojs/sitemap";
+
+// https://astro.build/config
 export default defineConfig({
-  site: 'https://abhishekajith.github.io',
+    integrations: [react(), tailwind(), sitemap()],
+    site: template.website_url,
+    base: template.base,
 });

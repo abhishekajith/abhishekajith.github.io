@@ -1,0 +1,84 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { profile } from "@/settings";
+import BetterIcon from "@/components/ui/BetterIcon.astro";
+import List from "@/components/ui/List.astro";
+import {RESEARCH_ICONS} from "@/data/researchIcons";
+
+const { research_areas } = profile;
+---
+
+<Layout title="Research | Abhishek Ajith">
+  <div class="prose max-w-none">
+    <h1 class="text-3xl font-bold mb-8">Research Statement</h1>
+
+    <div class="mb-12">
+      <p class="text-lg mb-6">
+        My research focuses on designing inherently radiopaque, biodegradable
+        biomaterials that are visible under X-ray, promote tissue repair, and
+        resorb after healing. By combining polymer science, nanocellulose
+        chemistry, and bioceramics, I engineer materials that solve two
+        challenges at once: making implants trackable during surgery and
+        follow-up, and enabling site-specific therapy.
+      </p>
+      <p class="text-lg mb-6">
+        This work spans orthopaedic and craniomaxillofacial fixators, imageable
+        drug-eluting embolics for hepatocellular carcinoma, and self-setting
+        bone cements for periodontal regeneration.
+      </p>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-6">Research Areas</h2>
+    <div class="grid gap-8 mb-12">
+      {
+        research_areas.map((area) => (
+          <div class="flex gap-6 items-start">
+            <BetterIcon>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="2"
+                class="size-6 stroke-accent"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d={RESEARCH_ICONS[area.field as keyof typeof RESEARCH_ICONS]?.path || RESEARCH_ICONS['computer-science'].path}
+                />
+              </svg>
+            </BetterIcon>
+            <div>
+              <h3 class="text-xl font-semibold mb-2">{area.title}</h3>
+              <p class="text-base">{area.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <List listTitle="Current Projects" listItems={[
+      {
+        title: "Osteogenic 3D-Printable Radiopaque Fixators",
+        description: "X-ray-visible, early osteogenic fixators for diabetic orthopaedic and craniomaxillofacial repair."
+      },
+      {
+        title: "Radiopaque TACE Embolics for HCC",
+        description: "Biodegradable imageable embolics enabling locoregional hepatocellular carcinoma therapy, using nanocellulose extracted from Agave sisalana and drug-eluting porous microspheres."
+      },
+      {
+        title: "Nanocellulose-Brushite Self-Setting Composites",
+        description: "Early-biomineralizing radiopaque cements engineered for periodontal regeneration."
+      }
+    ]} />
+
+    <h2 class="text-2xl font-bold mb-6">Research Impact</h2>
+    <p class="text-lg mb-6">
+      By making implants intrinsically radiopaque, my materials remove the need
+      for toxic contrast agents and enable real-time, non-invasive tracking of
+      repair and therapy. Combined with osteogenic and biodegradable
+      characteristics, these materials aim to reduce secondary surgeries and
+      improve outcomes in orthopaedic and oncologic applications.
+    </p>
+  </div>
+</Layout>
