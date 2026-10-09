@@ -83,11 +83,6 @@ author:
   zhihu            : # Username
 
 # Publication Category - The following the list of publication categories and their headings
-# Renders each BibTeX entry through _layouts/bib.html so the
-# /publications filters can read data-year / data-topics.
-scholar:
-  bibliography_template: bib
-  style: apa
 publication_category:
   books:
     title: 'Books'
@@ -286,7 +281,6 @@ plugins:
   - jekyll-sitemap
   - jekyll-redirect-from
   - jemoji
-  - jekyll-scholar
 
 # Mimic GitHub Pages with --safe
 whitelist:
@@ -296,7 +290,6 @@ whitelist:
   - jekyll-sitemap
   - jekyll-redirect-from
   - jemoji
-  - jekyll-scholar
 
 
 # Archives

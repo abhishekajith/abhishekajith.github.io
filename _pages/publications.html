@@ -6,13 +6,13 @@ author_profile: true
 ---
 
 {% comment %}
-  Entries come from _bibliography/references.bib via jekyll-scholar. The
-  per-entry markup lives in _layouts/bib.html (wired up by the
-  `scholar.bibliography_template` setting in _config.yml). That template
-  tags each item with data-year / data-topics, which is what the filters
-  below read - they need no access to jekyll-scholar's internal data, and
-  the year/topic options are built from the rendered DOM at runtime.
+  Entries come from _data/publications.yml, which scripts/bib2yml.py
+  generates from _bibliography/references.bib. The .bib stays the single
+  source of truth; jekyll-scholar is not used because it is unsupported on
+  GitHub Pages and its bibtex-ruby dependency breaks on Ruby 3.
 {% endcomment %}
+
+{% assign pubs = site.data.publications %}
 
 <div class="pub-toolbar" id="pub-toolbar">
   <input
@@ -24,16 +24,12 @@ author_profile: true
 
   <label class="pub-field">
     <span>Year</span>
-    <select id="pub-year">
-      <option value="all">All</option>
-    </select>
+    <select id="pub-year"><option value="all">All</option></select>
   </label>
 
   <label class="pub-field">
     <span>Topic</span>
-    <select id="pub-topic">
-      <option value="all">All</option>
-    </select>
+    <select id="pub-topic"><option value="all">All</option></select>
   </label>
 
   <a class="pub-bib" href="{{ '/assets/bibliography.bib' | relative_url }}" download>Download .bib</a>
@@ -41,17 +37,59 @@ author_profile: true
 
 <p class="pub-count" id="pub-count" aria-live="polite"></p>
 
-<div id="pub-list-wrap">
-  {% bibliography %}
-</div>
+{% if pubs and pubs.size > 0 %}
+  <ol class="pub-list" id="pub-list">
+    {% for p in pubs %}
+      <li class="pub-item"
+          data-year="{{ p.year }}"
+          data-topics="{{ p.keywords | join: '|' }}"
+          data-text="{{ p.title | append: ' ' | append: p.venue | append: ' ' | append: p.authors | map: 'last' | join: ' ' | downcase }}">
+        <div class="pub-meta">
+          {% if p.venue %}<span class="pub-venue">{{ p.venue }}</span>{% endif %}
+          {% if p.year %}<span class="pub-year">{{ p.year }}</span>{% endif %}
+          {% if p.volume %}<span>{{ p.volume }}</span>{% endif %}
+          {% if p.pages %}<span>{{ p.pages }}</span>{% endif %}
+          {% if p.annote == 'under-review' %}
+            <span class="pub-badge pub-badge-review">under review</span>
+          {% elsif p.annote == 'in-press' %}
+            <span class="pub-badge pub-badge-press">in press</span>
+          {% elsif p.annote == 'preprint' %}
+            <span class="pub-badge pub-badge-pre">preprint</span>
+          {% endif %}
+        </div>
 
-<p class="pub-empty" id="pub-empty" hidden>No publications match those filters.</p>
+        <h2 class="pub-title">{{ p.title }}</h2>
+
+        <p class="pub-authors">
+          {% for a in p.authors %}
+            {{ a.last }}{% if a.first %}, {{ a.first }}{% endif %}{% unless forloop.last %}; {% endunless %}
+          {% endfor %}
+        </p>
+
+        {% if p.note != '' %}<p class="pub-note">{{ p.note }}</p>{% endif %}
+
+        <p class="pub-links">
+          {% if p.doi %}
+            <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI {{ p.doi }}</a>
+          {% elsif p.url %}
+            <a href="{{ p.url }}" target="_blank" rel="noopener">Open record</a>
+          {% endif %}
+        </p>
+      </li>
+    {% endfor %}
+  </ol>
+
+  <p class="pub-empty" id="pub-empty" hidden>No publications match those filters.</p>
+{% else %}
+  <p class="pub-empty">
+    No publications found. Run <code>python scripts/bib2yml.py</code> to generate
+    <code>_data/publications.yml</code> from <code>_bibliography/references.bib</code>.
+  </p>
+{% endif %}
 
 <script>
 (function () {
-  // jekyll-scholar renders an ordered list of entries; the bib layout gives
-  // each one .pub-item with data-year and data-topics.
-  var list = document.querySelector('#pub-list-wrap ol') || document.getElementById('pub-list-wrap');
+  var list = document.getElementById('pub-list');
   if (!list) return;
 
   var items = Array.prototype.slice.call(list.querySelectorAll('.pub-item'));
@@ -60,11 +98,6 @@ author_profile: true
   var topic  = document.getElementById('pub-topic');
   var count  = document.getElementById('pub-count');
   var empty  = document.getElementById('pub-empty');
-
-  if (!items.length) {
-    count.textContent = 'No publications found.';
-    return;
-  }
 
   // Build the year and topic options from what actually rendered, so the
   // filters can never drift out of sync with the bibliography.
@@ -77,8 +110,7 @@ author_profile: true
     });
   }
 
-  var years = [];
-  var topics = [];
+  var years = [], topics = [];
   items.forEach(function (el) {
     var y = el.dataset.year;
     if (y && years.indexOf(y) === -1) years.push(y);
@@ -132,7 +164,8 @@ author_profile: true
   .pub-field select{padding:6px 10px;border-radius:4px}
   .pub-bib{padding:8px 14px;border:1px solid #ccc;border-radius:4px;font-size:0.9em;white-space:nowrap}
   .pub-count{font-size:0.9em;opacity:0.8;margin:0 0 1rem}
-  .pub-item{list-style:none;border-top:1px solid rgba(0,0,0,.1);padding:1.1rem 0;margin-left:0}
+  .pub-list{list-style:none;margin:0;padding:0}
+  .pub-item{border-top:1px solid rgba(0,0,0,.1);padding:1.1rem 0}
   .pub-meta{display:flex;flex-wrap:wrap;gap:.5rem;font-size:.8em;text-transform:uppercase;letter-spacing:.04em;opacity:.75}
   .pub-venue{font-weight:700}
   .pub-title{font-size:1.15em;margin:.35rem 0 .3rem;line-height:1.35}

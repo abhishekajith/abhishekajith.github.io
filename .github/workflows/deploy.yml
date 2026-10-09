@@ -34,6 +34,10 @@ jobs:
       # Build with Jekyll. jekyll-scholar parses every .bib it finds, so the
       # downloadable copy must NOT exist during the build - it is written
       # into _site afterwards instead. See the next step.
+      # The .bib is the source of truth; render it to YAML for Liquid.
+      - name: Generate publications data
+        run: python scripts/bib2yml.py
+
       - name: Build with Jekyll
         run: bundle exec jekyll build --trace --profile
         env:

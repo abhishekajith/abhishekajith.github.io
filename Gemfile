@@ -6,9 +6,6 @@ group :jekyll_plugins do
   gem 'jekyll-sitemap'
   gem 'jekyll-redirect-from'
   gem 'jemoji'
-  # Bibliography: renders _bibliography/references.bib on /publications/
-  # with formatted citations, BibTeX links and keyword filtering.
-  gem 'jekyll-scholar'
   gem 'webrick', '~> 1.8'
 end
 
