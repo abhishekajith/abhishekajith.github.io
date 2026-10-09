@@ -7,8 +7,8 @@ title: "About"
 author_profile: true
 ---
 
-PhD researcher in **regenerative biomaterials** at the Regenerative Biomaterials
-and Theranostics (RBT) Lab, Cochin University of Science and Technology, under the
+PhD researcher in **regenerative biomaterials** at the [Regenerative Biomaterials
+and Theranostics (RBT) Lab](https://www.gssailaja.org/), Cochin University of Science and Technology, under the
 supervision of Prof. G. S. Sailaja.
 
 ## What I work on
