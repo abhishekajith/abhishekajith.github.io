@@ -1,7 +1,7 @@
 ---
 layout: about
 title: "About"
-permalink: /about/
+permalink: /
 author_profile: true
 ---
 
@@ -11,8 +11,8 @@ supervision of Prof. G. S. Sailaja.
 
 ## What I work on
 
-I design **inherently radiopaque, biodegradable biomaterials** — implants that are
-visible under X-ray, promote tissue repair, and resorb after healing — for
+I design **inherently radiopaque, biodegradable biomaterials** â€” implants that are
+visible under X-ray, promote tissue repair, and resorb after healing â€” for
 orthopaedic repair and locoregional cancer therapy.
 
 The idea is simple but awkward to achieve: an implant should be trackable during
@@ -26,23 +26,23 @@ competing.
 
 | | |
 |---|---|
-| **PhD** | Regenerative Biomaterials and Theranostics, CUSAT (2026– ) |
-| **M.Tech** | Polymer Technology, CUSAT — CGPA 8.52/10, 1st in batch (2020–22) |
-| **M.Sc.** | Biopolymer Science, CIPET — CGPA 8.76/10 (2017–19) |
-| **B.Sc.** | Chemistry, Mahatma Gandhi University — CGPA 8.70/10 (2014–17) |
+| **PhD** | Regenerative Biomaterials and Theranostics, CUSAT (2026â€“ ) |
+| **M.Tech** | Polymer Technology, CUSAT â€” CGPA 8.52/10, 1st in batch (2020â€“22) |
+| **M.Sc.** | Biopolymer Science, CIPET â€” CGPA 8.76/10 (2017â€“19) |
+| **B.Sc.** | Chemistry, Mahatma Gandhi University â€” CGPA 8.70/10 (2014â€“17) |
 
 Before CUSAT I worked on underwater sound-damping coatings at IIT Madras
-(NPOL–DRDO project) and photo-crosslinkable injectable hydrogels for cartilage
+(NPOLâ€“DRDO project) and photo-crosslinkable injectable hydrogels for cartilage
 repair at IIT Kanpur.
 
 ## Current work
 
-- **Radiopaque fixators** — X-ray-visible, osteogenic fixators for diabetic
+- **Radiopaque fixators** â€” X-ray-visible, osteogenic fixators for diabetic
   orthopaedic and craniomaxillofacial repair.
-- **Imageable drug-eluting embolics** — biodegradable embolics for locoregional
+- **Imageable drug-eluting embolics** â€” biodegradable embolics for locoregional
   hepatocellular carcinoma therapy, using nanocellulose extracted from
   *Agave sisalana*.
-- **Early-biomineralizing self-setting cements** — nanocellulose–brushite
+- **Early-biomineralizing self-setting cements** â€” nanocelluloseâ€“brushite
   composites for periodontal regeneration.
 
 See [Research]({{ '/research/' | relative_url }}) for detail, or
@@ -51,5 +51,5 @@ See [Research]({{ '/research/' | relative_url }}) for detail, or
 ## Beyond the bench
 
 I qualified GATE 2026. I am happy to talk to anyone working on radiopaque
-biomaterials, nanocellulose, or translational regenerative biomaterials — see
+biomaterials, nanocellulose, or translational regenerative biomaterials â€” see
 [Contact]({{ '/contact/' | relative_url }}).
