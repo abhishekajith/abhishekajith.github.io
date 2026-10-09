@@ -31,18 +31,18 @@ jobs:
           ruby-version: "3.3"
           bundler-cache: true
 
-      # _bibliography/references.bib is the single source for the publications
-      # page. Publish a copy under /assets so it is downloadable, without
-      # keeping a second copy in the repo.
-      - name: Expose bibliography for download
-        run: |
-          mkdir -p assets
-          cp _bibliography/references.bib assets/bibliography.bib
-
+      # Build with Jekyll. jekyll-scholar parses every .bib it finds, so the
+      # downloadable copy must NOT exist during the build - it is written
+      # into _site afterwards instead. See the next step.
       - name: Build with Jekyll
         run: bundle exec jekyll build --trace --profile
         env:
           JEKYLL_ENV: production
+
+      # Publish references.bib as a download. Done after the build so
+      # jekyll-scholar never sees the duplicate and tries to parse it.
+      - name: Publish bibliography for download
+        run: mkdir -p _site/assets && cp _bibliography/references.bib _site/assets/bibliography.bib
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

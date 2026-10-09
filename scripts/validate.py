@@ -149,6 +149,33 @@ for f in ENCODED_FILES:
         err(f"{f}: {moji} mojibake sequence(s) - smart quotes/dashes were "
             f"double-encoded. Rewrite the file as UTF-8.")
 
+# ── 3d. Bibliography must satisfy jekyll-scholar's parser ─────────────
+# jekyll-scholar converts every .bib it finds using BibTeX-Ruby, which:
+#   - requires YAML front matter on the file
+#   - rejects `%` comments outright (ParseError, build aborts)
+#   - chokes on any duplicate .bib elsewhere in the source tree
+bib = "_bibliography/references.bib"
+if os.path.exists(bib):
+    raw = open(bib, encoding="utf-8").read()
+    if not raw.startswith("---"):
+        err(f"{bib}: missing YAML front matter - jekyll-scholar will not parse it "
+            f"and the publications page renders empty")
+    pct = [i + 1 for i, ln in enumerate(raw.splitlines()) if ln.lstrip().startswith("%")]
+    if pct:
+        err(f"{bib}: '%' comments on line(s) {pct[:5]} - BibTeX-Ruby raises "
+            f"ParseError on these and the BUILD FAILS")
+    entries = re.findall(r"^@\w+\{", raw, re.M)
+    if not entries:
+        err(f"{bib}: no @entries found")
+    else:
+        print(f"  ok   bib: {len(entries)} entries, front matter present, no % comments")
+
+# Any other .bib in the source tree will also be parsed by jekyll-scholar.
+stray = [p for p in glob.glob("**/*.bib", recursive=True)
+         if p.replace("\\", "/") != bib and not p.startswith(("_site", "node_modules", "vendor"))]
+if stray:
+    err(f"stray .bib file(s) that jekyll-scholar will also try to parse: {stray}")
+
 # ── 4. Images referenced actually exist ─────────────────────────────────
 for f in glob.glob("_pages/*.md") + glob.glob("_data/*.yml") + ["_config.yml"]:
     txt = open(f, encoding="utf-8").read()
