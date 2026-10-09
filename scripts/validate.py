@@ -99,6 +99,12 @@ for f in page_files:
 
 
 # ── 3. Front matter ─────────────────────────────────────────────────────
+# A layout that does not exist renders the page with NO layout at all: no
+# head, no sidebar, no CSS. Silent in the build, obvious on the page.
+layouts = {os.path.splitext(f)[0] for f in os.listdir("_layouts")
+           if os.path.isfile(os.path.join("_layouts", f))}
+print(f"\n  layouts available: {', '.join(sorted(layouts))}")
+
 for p in glob.glob("_pages/*.md") + glob.glob("_pages/*.html"):
     txt = open(p, encoding="utf-8").read()
     if not txt.startswith("---"):
@@ -112,9 +118,36 @@ for p in glob.glob("_pages/*.md") + glob.glob("_pages/*.html"):
     if "layout:" not in fm:
         # Legitimate: _config.yml `defaults` assigns layout: single to pages.
         warn(f"{p}: no explicit layout (falls back to _config defaults)")
+    else:
+        # A layout that does not exist renders the page with NO layout at all:
+        # no head, no sidebar, no CSS. Silent in the build, obvious on the page.
+        lay = re.search(r"^layout:\s*(\S+)", fm, re.M)
+        if lay and lay.group(1) not in layouts:
+            err(f"{p}: layout '{lay.group(1)}' does not exist in _layouts "
+                f"(available: {', '.join(sorted(layouts)) or 'none'})")
     if "permalink:" not in fm:
         warn(f"{p}: no permalink (will live at /{os.path.basename(p)}/)")
 
+
+# ── 3c. Encoding ───────────────────────────────────────────────────────
+# Mojibake: UTF-8 bytes decoded as cp1252 then re-encoded. A PowerShell
+# round-trip with -Encoding UTF8 will do this silently, and it ships.
+ENCODED_FILES = (glob.glob("_pages/*.md") + glob.glob("_pages/*.html")
+                 + glob.glob("_data/*.yml") + ["_config.yml"]
+                 + ["_bibliography/references.bib"])
+for f in ENCODED_FILES:
+    raw = open(f, "rb").read()
+    if raw.startswith(b"\xef\xbb\xbf"):
+        err(f"{f}: has a UTF-8 BOM (breaks YAML front matter parsing)")
+    try:
+        t = raw.decode("utf-8")
+    except UnicodeDecodeError as e:
+        err(f"{f}: not valid UTF-8: {e}")
+        continue
+    moji = t.count("\u00e2\u20ac") + t.count("\ufffd")
+    if moji:
+        err(f"{f}: {moji} mojibake sequence(s) - smart quotes/dashes were "
+            f"double-encoded. Rewrite the file as UTF-8.")
 
 # ── 4. Images referenced actually exist ─────────────────────────────────
 for f in glob.glob("_pages/*.md") + glob.glob("_data/*.yml") + ["_config.yml"]:
