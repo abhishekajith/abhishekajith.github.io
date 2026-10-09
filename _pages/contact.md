@@ -35,9 +35,3 @@ Areas where I would be glad to hear from people:
 - Nanocellulose and other agro-waste-derived biopolymers
 - Self-setting bone and dental cements, early biomineralisation
 - Locoregional therapy and drug-eluting embolics
-
-## Prospective students
-
-I am not currently advertising PhD positions, but I read every message. If you
-are interested in the group's work, email me with a short note about your
-background and what you would like to work on.
