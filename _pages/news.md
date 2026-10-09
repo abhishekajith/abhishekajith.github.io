@@ -5,7 +5,7 @@ layout: single
 author_profile: true
 ---
 
-Milestones, publications and updates. Edit `_data/news.yml` to add an entry —
+Milestones, publications and updates. Edit `_data/news.yml` to add an entry -
 this page and the homepage both read from it.
 
 {% assign items = site.data.news %}

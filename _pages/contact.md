@@ -8,7 +8,7 @@ author_profile: false
 ## Get in touch
 
 I am always glad to discuss radiopaque biomaterials, nanocellulose, or
-translational work in regenerative biomaterials and theranostics — whether that
+translational work in regenerative biomaterials and theranostics - whether that
 means a question about a paper, a collaboration, or a PhD query.
 
 | | |
