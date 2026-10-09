@@ -1,0 +1,10 @@
+# Used by the Jekyll Scholar bibliography to resolve author names to
+# profile pages, and to mark which entries are yours.
+
+Abhishek Ajith:
+  name: "Abhishek Ajith"
+  uri: "https://abhishekajith.github.io"
+  email: "abhishek97@gmail.com"
+  bio: "PhD researcher in regenerative biomaterials at CUSAT."
+  avatar: "profile.jpg"
+  orcid: "0000-0002-8939-9948"

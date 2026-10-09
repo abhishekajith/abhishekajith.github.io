@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Schematic placeholder: nanocellulose-brushite composite">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b2320"/>
+      <stop offset="100%" stop-color="#101412"/>
+    </linearGradient>
+    <linearGradient id="platelet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#faf8f5"/>
+      <stop offset="100%" stop-color="#a8906d"/>
+    </linearGradient>
+    <linearGradient id="apatite" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dff3e9"/>
+      <stop offset="100%" stop-color="#3a9a7e"/>
+    </linearGradient>
+    <filter id="soft3">
+      <feGaussianBlur stdDeviation="0.7"/>
+    </filter>
+  </defs>
+
+  <rect width="640" height="400" fill="url(#bg3)"/>
+
+  <!-- brushite platelets -->
+  <g opacity="0.92">
+    <g transform="translate(190 150) rotate(-24)">
+      <rect x="-70" y="-11" width="140" height="22" rx="4" fill="url(#platelet)"/>
+    </g>
+    <g transform="translate(400 140) rotate(14)">
+      <rect x="-64" y="-10" width="128" height="20" rx="4" fill="url(#platelet)"/>
+    </g>
+    <g transform="translate(300 258) rotate(-6)">
+      <rect x="-84" y="-12" width="168" height="24" rx="4" fill="url(#platelet)"/>
+    </g>
+    <g transform="translate(505 250) rotate(30)">
+      <rect x="-52" y="-9" width="104" height="18" rx="4" fill="url(#platelet)" opacity="0.9"/>
+    </g>
+    <g transform="translate(120 285) rotate(8)">
+      <rect x="-46" y="-8" width="92" height="16" rx="4" fill="url(#platelet)" opacity="0.85"/>
+    </g>
+  </g>
+
+  <!-- nanocellulose fibrils intercalating between platelets -->
+  <g stroke="#5bb498" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.9" filter="url(#soft3)">
+    <path d="M120 168 C 170 140, 210 190, 260 160"/>
+    <path d="M258 274 C 310 250, 350 292, 396 266"/>
+    <path d="M330 112 C 380 96, 420 140, 462 118"/>
+    <path d="M430 232 C 470 214, 520 250, 566 232"/>
+    <path d="M74 258 C 110 240, 140 268, 176 254"/>
+  </g>
+  <g stroke="#8ed0b8" stroke-width="1" fill="none" opacity="0.55">
+    <path d="M120 168 C 170 140, 210 190, 260 160" stroke-dasharray="2 4"/>
+    <path d="M258 274 C 310 250, 350 292, 396 266" stroke-dasharray="2 4"/>
+    <path d="M430 232 C 470 214, 520 250, 566 232" stroke-dasharray="2 4"/>
+  </g>
+
+  <!-- early apatite nucleation on platelet faces -->
+  <g fill="url(#apatite)" opacity="0.95">
+    <circle cx="238" cy="163" r="5"/>
+    <circle cx="252" cy="158" r="3.4"/>
+    <circle cx="374" cy="263" r="4.6"/>
+    <circle cx="386" cy="269" r="3.2"/>
+    <circle cx="392" cy="120" r="4.2"/>
+    <circle cx="404" cy="115" r="2.8"/>
+    <circle cx="512" cy="238" r="3.8"/>
+    <circle cx="146" cy="176" r="3.6"/>
+  </g>
+
+  <!-- setting front -->
+  <path d="M0 330 C 140 316, 300 344, 440 326 C 520 316, 580 328, 640 320"
+        fill="none" stroke="#e0a63a" stroke-width="2.5" stroke-dasharray="10 7" opacity="0.8"/>
+  <text x="404" y="358" font-family="Inter, sans-serif" font-size="11" fill="#f2d99c" opacity="0.9">setting front</text>
+
+  <g font-family="Inter, sans-serif" font-size="13" fill="#eceae4" opacity="0.72">
+    <text x="28" y="40">placeholder — replace with</text>
+    <text x="28" y="58">SEM micrograph of set cement</text>
+  </g>
+
+  <g font-family="Inter, sans-serif" font-size="12">
+    <path d="M180 96 L142 126" stroke="#f3efe8" stroke-width="1.2"/>
+    <circle cx="182" cy="94" r="2.6" fill="#f3efe8"/>
+    <text x="118" y="88" fill="#f3efe8">brushite platelet</text>
+
+    <path d="M470 96 L404 112" stroke="#8ed0b8" stroke-width="1.2"/>
+    <circle cx="472" cy="94" r="2.6" fill="#8ed0b8"/>
+    <text x="478" y="90" fill="#8ed0b8">phosphorylated nanocellulose</text>
+
+    <path d="M254 196 L242 172" stroke="#5bb498" stroke-width="1.2"/>
+    <circle cx="256" cy="198" r="2.6" fill="#5bb498"/>
+    <text x="196" y="216" fill="#8ed0b8">apatite nucleation</text>
+  </g>
+
+  <g stroke="#eceae4" stroke-width="2" opacity="0.6">
+    <path d="M540 372 h64"/>
+    <path d="M540 366 v12 M604 366 v12"/>
+  </g>
+  <text x="572" y="362" font-family="Inter, sans-serif" font-size="10" fill="#eceae4" opacity="0.7" text-anchor="middle">10 µm</text>
+</svg>

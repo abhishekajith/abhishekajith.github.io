@@ -1,106 +1,118 @@
-# Astro Academia Documentation
+# abhishekajith.github.io
 
-## What is Astro Academia?
+Personal academic website, built on the
+[Academic Pages](https://github.com/academicpages/academicpages.github.io)
+theme (Jekyll).
 
-Astro Academia is a personal academic website built using Astro, a modern static site generator. The website is designed to showcase academic achievements, research papers, blog posts, and a CV. It is fast, responsive, and easy to maintain, making it an ideal platform for academics and researchers to present their work.
+**Live site:** https://abhishekajith.github.io
 
-If you find Astro Academia useful or appreciate my work, consider supporting me! Your support helps keep this project maintained and encourages further development. 🚀✨
+## Pages
 
-<a href="https://buymeacoffee.com/maiobarbero" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>
-<a href="https://www.producthunt.com/products/astro-academia?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-astro&#0045;academia" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1026976&theme=light&t=1760776422941" alt="Astro&#0032;Academia - Academic&#0032;website&#0032;template | Product Hunt" style="width: 189px; height: 41px;" width="189" height="41" /></a>
+| Path | Source | Notes |
+|---|---|---|
+| `/about/` | `_pages/about.md` | Bio, background table, current work |
+| `/research/` | `_pages/research.md` | Three research areas with figures, current projects |
+| `/publications/` | `_pages/publications.html` | jekyll-scholar, filter by year + topic + free text |
+| `/news/` | `_pages/news.md` | Renders `_data/news.yml` |
+| `/cv/` | `_pages/cv.md` | Full CV, links to `/files/cv.pdf` |
+| `/contact/` | `_pages/contact.md` | Links and collaboration interests |
 
-### Demo
-You can see Astro Academia at the following link: <a href="https://maiobarbero.github.io/astro_academia/" target="_blank">demo page</a>
+Navigation order is set in `_data/navigation.yml`. Sidebar identity and social
+links are in the `author:` block of `_config.yml`.
 
-## How to use it
+## Adding a publication
 
-Fork this repository to create your new website starting from this template.
+Append to **`_bibliography/references.bib`** — that is the only file you need to
+touch. jekyll-scholar reads it and the `/publications` page re-renders on the
+next build.
 
-## How to Create a CV Using the `cv.ts` File
-
-The `cv.ts` file located in the `src/data/` directory is used to define the structure and content of your CV. This file exports an object containing various sections of your CV, such as education, experience, publications, and more.
-
-### Example Structure of `cv.ts`
-
-```typescript
-export const cv = {
-  education: [
-    {
-      degree: "Ph.D. in Computer Science",
-      institution: "University of Example",
-      year: "2020",
-    },
-    {
-      degree: "M.Sc. in Computer Science",
-      institution: "University of Example",
-      year: "2016",
-    },
-  ],
-  experience: [
-    {
-      title: "Research Scientist",
-      company: "Example Research Lab",
-      year: "2021-Present",
-    },
-    {
-      title: "Software Engineer",
-      company: "Tech Company",
-      year: "2016-2021",
-    },
-  ],
-  // Add more sections as needed
-};
+```bibtex
+@article{yourkey2026,
+  title     = {Title of the paper},
+  author    = {Ajith, Abhishek and Doe, Jane},
+  journal   = {Journal Name},
+  year      = {2026},
+  volume    = {00},
+  pages     = {00--00},
+  doi       = {10.0000/xxxxx},
+  keywords  = {nanocellulose, brushite},
+  annote    = {published}
+}
 ```
 
-To create or update your CV, modify the `cv.ts` file with your personal information and achievements. The CV will be automatically rendered on the CV page of your website.
+- `keywords` — comma-separated; these populate the topic filter.
+- `annote` — `published` (default), `under-review`, `in-press`, or `preprint`.
+  Anything other than `published` shows a coloured badge.
+- `note` — free text, shown under the authors (e.g. a manuscript ID).
 
-## How to Use the `settings.ts` File
+Author names must match a key in `_data/authors.yml` for the sidebar profile
+links to resolve.
 
-The `settings.ts` file located in the `src/` directory is used to configure various settings for your Astro Academia website. This file exports an object containing settings such as site title, description, social media links, and more.
+A copy of the `.bib` is published at `/assets/bibliography.bib` for download. The
+build workflow copies it there — do not commit a second copy.
 
-### Example Structure of `settings.ts`
+## Adding news
 
-```typescript
-export const settings = {
-  siteTitle: "Astro Academia",
-  siteDescription: "A personal academic website built with Astro.",
-  socialLinks: {
-    twitter: "https://twitter.com/yourusername",
-    github: "https://github.com/yourusername",
-    linkedin: "https://linkedin.com/in/yourusername",
-  },
-  // Add more settings as needed
-};
+Append to `_data/news.yml`, newest first. Both `/news/` and the homepage read it.
+
+## Build and deploy
+
+Pushes to `main` trigger `.github/workflows/deploy.yml`, which builds with Jekyll
+and deploys to GitHub Pages. **You do not need Ruby installed locally to deploy.**
+
+The workflow also copies `_bibliography/references.bib` to
+`assets/bibliography.bib` before building, so the two never drift.
+
+To preview locally you would need Ruby 3.3 + Bundler:
+
+```bash
+bundle install
+bundle exec jekyll serve      # http://localhost:4000
 ```
 
-To customize your website settings, modify the `settings.ts` file with your desired values. These settings will be used throughout your website to display the appropriate information.
+## Validation
 
-## Where to Find the Blog Collection and Where to Add New Blog Posts
+`jekyll build` cannot run in every environment, so the repo carries static
+checks for the failures that would otherwise only show up in CI:
 
-The blog collection is located in the `src/content/BlogPosts/` directory. Each blog post is a Markdown file with a `.md` extension. The blog posts are named sequentially (e.g., `post1.md`, `post2.md`, etc.).
-
-### Adding a New Blog Post
-
-1. Navigate to the `src/content/BlogPosts/` directory.
-2. Create a new Markdown file for your blog post (e.g., `post1.md`).
-3. Add the content of your blog post using Markdown syntax. Include frontmatter at the top of the file to define metadata such as title, date, and tags.
-
-### Example Blog Post (`post11.md`)
-
-```markdown
----
-title: "New Blog Post"
-date: "2023-10-01"
-tags: ["research", "astro"]
-excerpt: "Some short paragraphs"
----
-
-# New Blog Post
-
-This is the content of the new blog post. Write your article here using Markdown syntax.
+```bash
+python scripts/validate.py
 ```
 
-Once you have added the new blog post, it will be automatically included in the blog collection and displayed on the blog page of your website.
+It verifies that
 
-## Deploy
-The template provides a workflow to deploy the website on Github pages as a static website.
+- every YAML file parses (`_config.yml`, `_data/*.yml`, workflows)
+- Liquid block tags balance across pages, includes and layouts
+- every nav URL resolves to a real page permalink
+- referenced images and files exist on disk
+- the bibliography parses and has entries
+- every plugin enabled in `_config.yml` is actually provided by the Gemfile
+  (directly, or via the `github-pages` meta-gem)
+
+It exits non-zero on any error. Run it before every push.
+
+## Replacing the placeholder figures
+
+`images/research/*.svg` are **placeholder schematics**, labelled as such in the
+image itself. Replace them with real FE-SEM, micro-CT or radiograph exports
+using the same filenames — nothing else needs to change. 16:10 crops work best.
+
+`images/profile.jpg` is the sidebar portrait.
+
+## CV PDF
+
+`files/cv.pdf` is a generated artefact. Regenerate it whenever you change the CV
+page content, and keep it in sync manually — Jekyll does not build it.
+
+## Notes
+
+- **Why `jekyll-scholar` is in the Gemfile but plugins differ.** The
+  `github-pages` meta-gem supplies the standard whitelisted plugins
+  (`jekyll-gist`, `jekyll-paginate`, …) transitively, so they need no explicit
+  Gemfile line. `jekyll-scholar` is *not* part of that set, hence the explicit
+  entry.
+- **Publications are a collection no more.** The theme's `_publications/*.md`
+  sample files were removed in favour of the BibTeX pipeline.
+- If the build fails on `jekyll-scholar`, it is a version conflict with
+  `github-pages`. Check the Actions log — the fix is to pin compatible versions
+  or drop the `github-pages` gem and list plugins individually.

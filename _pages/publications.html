@@ -1,0 +1,177 @@
+---
+layout: archive
+title: "Publications"
+permalink: /publications/
+author_profile: true
+---
+
+{% comment %}
+  Rendered from _bibliography/references.bib by jekyll-scholar.
+  Each entry is emitted with data-year / data-topics so the filters below
+  can narrow the list in place without a rebuild.
+{% endcomment %}
+
+<div class="pub-toolbar" id="pub-toolbar">
+  <input
+    type="search"
+    id="pub-search"
+    class="pub-search"
+    placeholder="Search title, author, venue…"
+    aria-label="Search publications" />
+
+  <label class="pub-field">
+    <span>Year</span>
+    <select id="pub-year">
+      <option value="all">All</option>
+      {% assign years = site.data.bibliography.entries | map: 'year' | compact | uniq | sort | reverse %}
+      {% for y in years %}
+        <option value="{{ y }}">{{ y }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label class="pub-field">
+    <span>Topic</span>
+    <select id="pub-topic">
+      <option value="all">All</option>
+      {% assign topics = site.data.bibliography.entries | map: 'keywords' | join: ',' | split: ',' | uniq | sort %}
+      {% for t in topics %}
+        {% assign tt = t | strip %}
+        {% if tt != '' %}
+          <option value="{{ tt | downcase }}">{{ tt }}</option>
+        {% endif %}
+      {% endfor %}
+    </select>
+  </label>
+
+  <a class="pub-bib" href="{{ '/assets/bibliography.bib' | relative_url }}" download>Download .bib</a>
+</div>
+
+<p class="pub-count" id="pub-count" aria-live="polite"></p>
+
+{% assign entries = site.data.bibliography.entries %}
+{% if entries and entries.size > 0 %}
+  <ol class="pub-list" id="pub-list">
+    {% for entry in entries %}
+      {% assign kws = entry.keywords | default: empty | join: '|' | downcase %}
+      <li class="pub-item"
+          data-year="{{ entry.year }}"
+          data-topics="{{ kws }}"
+          data-text="{{ entry.title | append: ' ' | append: entry.venue | append: ' ' | append: entry.year | downcase }}">
+        <div class="pub-meta">
+          {% if entry.venue %}<span class="pub-venue">{{ entry.venue }}</span>{% endif %}
+          {% if entry.year %}<span class="pub-year">{{ entry.year }}</span>{% endif %}
+          {% if entry.volume %}<span>{{ entry.volume }}</span>{% endif %}
+          {% if entry.pages %}<span>{{ entry.pages }}</span>{% endif %}
+          {% assign badge = entry.annote | default: entry.status | default: 'published' | downcase %}
+          {% if badge == 'under-review' %}
+            <span class="pub-badge pub-badge-review">under review</span>
+          {% elsif badge == 'in-press' %}
+            <span class="pub-badge pub-badge-press">in press</span>
+          {% elsif badge == 'preprint' %}
+            <span class="pub-badge pub-badge-pre">preprint</span>
+          {% endif %}
+        </div>
+
+        <h2 class="pub-title">{{ entry.title }}</h2>
+
+        <p class="pub-authors">
+          {% for a in entry.author %}
+            {{ a.last }}{% if a.first %}, {{ a.first }}{% endif %}{% unless forloop.last %}; {% endunless %}
+          {% endfor %}
+        </p>
+
+        {% if entry.note and entry.note != '' %}
+          <p class="pub-note">{{ entry.note }}</p>
+        {% endif %}
+
+        <p class="pub-links">
+          {% if entry.doi %}
+            <a href="https://doi.org/{{ entry.doi }}" target="_blank" rel="noopener">DOI {{ entry.doi }}</a>
+          {% elsif entry.url %}
+            <a href="{{ entry.url }}" target="_blank" rel="noopener">Open record</a>
+          {% endif %}
+        </p>
+      </li>
+    {% endfor %}
+  </ol>
+
+  <p class="pub-empty" id="pub-empty" hidden>No publications match those filters.</p>
+{% else %}
+  <p class="pub-empty">
+    No publications yet. Add entries to <code>_bibliography/references.bib</code>.
+  </p>
+{% endif %}
+
+<script>
+(function () {
+  var list   = document.getElementById('pub-list');
+  var search = document.getElementById('pub-search');
+  var year   = document.getElementById('pub-year');
+  var topic  = document.getElementById('pub-topic');
+  var count  = document.getElementById('pub-count');
+  var empty  = document.getElementById('pub-empty');
+
+  if (!list) return;
+  var items = Array.prototype.slice.call(list.querySelectorAll('.pub-item'));
+
+  function apply() {
+    var q  = (search.value || '').trim().toLowerCase();
+    var y  = year.value;
+    var t  = topic.value;
+    var n  = 0;
+
+    items.forEach(function (el) {
+      var okYear   = y === 'all' || el.dataset.year === y;
+      var topics   = (el.dataset.topics || '').split('|');
+      var okTopic  = t === 'all' || topics.indexOf(t) !== -1;
+      var okSearch = !q || (el.dataset.text || '').indexOf(q) !== -1;
+      var visible  = okYear && okTopic && okSearch;
+      el.hidden = !visible;
+      if (visible) n++;
+    });
+
+    var parts = [];
+    if (y !== 'all') parts.push('year ' + y);
+    if (t !== 'all') parts.push('topic “' + t + '”');
+    if (q) parts.push('“' + q + '”');
+    count.textContent = 'Showing ' + n + ' of ' + items.length +
+      (parts.length ? ' publication' + (items.length === 1 ? '' : 's') + ' (' + parts.join(', ') + ')' : ' publications');
+    if (empty) empty.hidden = n !== 0;
+  }
+
+  [search, year, topic].forEach(function (el) {
+    if (!el) return;
+    el.addEventListener('input', apply);
+    el.addEventListener('change', apply);
+  });
+
+  apply();
+})();
+</script>
+
+<style>
+  .pub-toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin:1.5rem 0 0.5rem}
+  .pub-search{flex:1 1 240px;min-width:200px}
+  .pub-field{display:flex;flex-direction:column;gap:4px;font-size:0.85em}
+  .pub-field span{font-weight:600;letter-spacing:.02em}
+  .pub-field select{padding:6px 10px;border-radius:4px}
+  .pub-bib{padding:8px 14px;border:1px solid #ccc;border-radius:4px;font-size:0.9em;white-space:nowrap}
+  .pub-count{font-size:0.9em;opacity:0.8;margin:0 0 1rem}
+  .pub-list{list-style:none;margin:0;padding:0}
+  .pub-item{border-top:1px solid rgba(0,0,0,.1);padding:1.1rem 0}
+  .pub-meta{display:flex;flex-wrap:wrap;gap:.5rem;font-size:.8em;text-transform:uppercase;letter-spacing:.04em;opacity:.75}
+  .pub-venue{font-weight:700}
+  .pub-title{font-size:1.15em;margin:.35rem 0 .3rem;line-height:1.35}
+  .pub-authors{margin:0 0 .3rem;font-size:.95em}
+  .pub-note{font-style:italic;opacity:0.75;margin:0 0 .3rem;font-size:.9em}
+  .pub-links{margin:.4rem 0 0;font-size:.85em}
+  .pub-badge{padding:1px 8px;border-radius:10px;text-transform:none;letter-spacing:0}
+  .pub-badge-review{background:#fde8c8;color:#7a4b12}
+  .pub-badge-press{background:#d8ecdf;color:#1f5c3d}
+  .pub-badge-pre{background:#dde5f5;color:#28427a}
+  .pub-empty{padding:1.5rem 0;opacity:0.75}
+  @media (prefers-color-scheme: dark){
+    .pub-item{border-top-color:rgba(255,255,255,.15)}
+  }
+</style>

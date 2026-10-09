@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Schematic placeholder: radiopaque fixator">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#2a2f36"/>
+      <stop offset="100%" stop-color="#14161a"/>
+    </radialGradient>
+    <linearGradient id="bone" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3efe8"/>
+      <stop offset="100%" stop-color="#bda98b"/>
+    </linearGradient>
+    <linearGradient id="filler" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e9bf60"/>
+      <stop offset="100%" stop-color="#b06a1c"/>
+    </linearGradient>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+  </defs>
+
+  <rect width="640" height="400" fill="url(#bg)"/>
+
+  <!-- X-ray beam cone -->
+  <g opacity="0.5">
+    <path d="M320 0 L120 400 L520 400 Z" fill="#e0a63a" opacity="0.09"/>
+  </g>
+
+  <!-- Fixator body -->
+  <g transform="translate(320 205) rotate(-12)">
+    <rect x="-150" y="-26" width="300" height="52" rx="12" fill="url(#bone)"/>
+    <rect x="-150" y="-26" width="300" height="52" rx="12" fill="none" stroke="#3b322a" stroke-opacity="0.35"/>
+
+    <!-- screw holes -->
+    <g fill="#14161a" opacity="0.75">
+      <circle cx="-118" cy="0" r="9"/>
+      <circle cx="118" cy="0" r="9"/>
+    </g>
+
+    <!-- radiopaque filler particles -->
+    <g filter="url(#soft)">
+      <circle cx="-88" cy="-8" r="5.5" fill="url(#filler)"/>
+      <circle cx="-58" cy="9" r="4" fill="url(#filler)"/>
+      <circle cx="-26" cy="-6" r="6.5" fill="url(#filler)"/>
+      <circle cx="4" cy="10" r="4.5" fill="url(#filler)"/>
+      <circle cx="34" cy="-9" r="5" fill="url(#filler)"/>
+      <circle cx="62" cy="7" r="6" fill="url(#filler)"/>
+      <circle cx="92" cy="-7" r="4" fill="url(#filler)"/>
+      <circle cx="-42" cy="-13" r="3" fill="url(#filler)"/>
+      <circle cx="18" cy="-14" r="3.2" fill="url(#filler)"/>
+      <circle cx="76" cy="16" r="3" fill="url(#filler)"/>
+    </g>
+
+    <!-- degradable polymer boundary -->
+    <path d="M-150 -26 q 40 -10 75 0 t 75 0 t 75 0 t 75 0"
+          fill="none" stroke="#3a9a7e" stroke-width="2" stroke-dasharray="5 4" opacity="0.85"/>
+    <path d="M-150 26 q 40 10 75 0 t 75 0 t 75 0 t 75 0"
+          fill="none" stroke="#3a9a7e" stroke-width="2" stroke-dasharray="5 4" opacity="0.85"/>
+  </g>
+
+  <!-- annotations -->
+  <g font-family="Inter, sans-serif" font-size="13" fill="#eceae4">
+    <text x="28" y="40" opacity="0.72">placeholder — replace with FE-SEM</text>
+    <text x="28" y="58" opacity="0.72">or micro-CT overlay</text>
+  </g>
+  <g font-family="Inter, sans-serif" font-size="12">
+    <path d="M498 190 L448 186" stroke="#e9bf60" stroke-width="1.2"/>
+    <circle cx="500" cy="190" r="2.6" fill="#e9bf60"/>
+    <text x="506" y="194" fill="#f2d99c">radiopaque filler</text>
+
+    <path d="M150 300 L214 262" stroke="#5bb498" stroke-width="1.2"/>
+    <circle cx="148" cy="302" r="2.6" fill="#5bb498"/>
+    <text x="34" y="312" fill="#8ed0b8">biodegradable matrix</text>
+  </g>
+
+  <!-- scale bar -->
+  <g stroke="#eceae4" stroke-width="2" opacity="0.6">
+    <path d="M540 372 h64"/>
+    <path d="M540 366 v12 M604 366 v12"/>
+  </g>
+  <text x="568" y="362" font-family="Inter, sans-serif" font-size="10" fill="#eceae4" opacity="0.7" text-anchor="middle">500 µm</text>
+</svg>

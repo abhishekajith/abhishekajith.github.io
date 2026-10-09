@@ -1,34 +1,59 @@
-name: Deploy to GitHub Pages
+name: Build and deploy Jekyll site to GitHub Pages
 
 on:
-  # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch’s name
   push:
-    branches: [main]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
+    branches: [main, jekyll-academicpages]
   workflow_dispatch:
 
-# Allow this job to clone the repo and create a page deployment
 permissions:
   contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Install, build, and upload your site output
-        uses: withastro/action@v4
-        # with:
-              # path: . # The root location of your Astro project inside the repository. (optional)
-              # node-version: 22 # The specific version of Node that should be used to build your site. Defaults to 22. (optional)
-              # package-manager: pnpm@latest # The Node package manager that should be used to install dependencies and build your site. Automatically detected based on your lockfile. (optional)
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      # _bibliography/references.bib is the single source for the publications
+      # page. Publish a copy under /assets so it is downloadable, without
+      # keeping a second copy in the repo.
+      - name: Expose bibliography for download
+        run: |
+          mkdir -p assets
+          cp _bibliography/references.bib assets/bibliography.bib
+
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --trace --profile
+        env:
+          JEKYLL_ENV: production
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
 
   deploy:
     needs: build
+    # Branches build and upload an artifact so the Jekyll build can be verified
+    # before it is allowed to replace the live site. Only main deploys.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
