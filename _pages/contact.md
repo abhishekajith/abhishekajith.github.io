@@ -13,7 +13,7 @@ means a question about a paper, a collaboration, or a PhD query.
 
 | | |
 |---|---|
-| **Email** | [abhishek97@gmail.com](mailto:abhishek97@gmail.com) |
+| **Email** | [abhishekajith@cusat.ac.in](mailto:abhishekajith@cusat.ac.in) |
 | **ORCID** | [0000-0002-8939-9948](https://orcid.org/0000-0002-8939-9948) |
 | **GitHub** | [github.com/abhishekajith](https://github.com/abhishekajith) |
 | **LinkedIn** | [linkedin.com/in/abhishekajith](https://www.linkedin.com/in/abhishekajith/) |
